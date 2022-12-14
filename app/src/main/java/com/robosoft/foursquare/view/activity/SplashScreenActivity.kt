@@ -1,8 +1,10 @@
 package com.robosoft.foursquare.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.ActivitySplashScreenBinding
 
@@ -18,8 +20,11 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        Handler().postDelayed({
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
             finish()
-        }, 3000)
+        },3000)
     }
 }

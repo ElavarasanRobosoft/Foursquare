@@ -1,11 +1,12 @@
-package com.robosoft.foursquare
+package com.robosoft.foursquare.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.robosoft.foursquare.R
 
-class MainActivity : AppCompatActivity() {
+class OTPActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_otpactivity)
     }
 }
