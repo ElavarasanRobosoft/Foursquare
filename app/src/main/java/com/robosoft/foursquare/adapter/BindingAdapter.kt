@@ -8,3 +8,4 @@ import androidx.databinding.BindingAdapter
 fun watcher(view: EditText, passwordTextWatcher: TextWatcher){
     view.addTextChangedListener(passwordTextWatcher)
 }
+

@@ -1,13 +1,15 @@
 package com.robosoft.foursquare.viewmodel
 
+import android.app.Application
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     var email = MutableLiveData<String>()
     var password = MutableLiveData<String>()
@@ -23,10 +25,6 @@ class LoginViewModel : ViewModel() {
         override fun afterTextChanged(p0: Editable?) {
 
         }
-
-    }
-
-    fun onClickSubmit(view: View) {
 
     }
 
