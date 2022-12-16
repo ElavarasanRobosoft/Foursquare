@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.FragmentOtpBinding
+import com.robosoft.foursquare.model.network.ProjectService
 
 class OtpFragment : Fragment() {
 
     private lateinit var otpBinding: FragmentOtpBinding
+    private val projectApi = ProjectService()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

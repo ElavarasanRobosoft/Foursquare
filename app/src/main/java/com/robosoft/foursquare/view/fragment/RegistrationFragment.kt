@@ -22,6 +22,14 @@ class RegistrationFragment : Fragment() {
         // Inflate the layout for this fragment
         registrationBinding = FragmentRegistrationBinding.inflate(inflater,container,false)
 
+        val email = registrationBinding.emailEt.text
+        val password = registrationBinding.enterPasswordEt.text
+        val confirmPassword = registrationBinding.confirmPasswordEt.text
+        val phone = registrationBinding.mobileNumberEt.text
+
+
+
+
 
         return registrationBinding.root
     }

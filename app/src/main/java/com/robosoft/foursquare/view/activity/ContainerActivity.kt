@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.ActivityContainerBinding
-import com.robosoft.foursquare.view.activity.fragment.LoginFragment
+import com.robosoft.foursquare.view.fragment.LoginFragment
 
 class ContainerActivity : AppCompatActivity() {
 
