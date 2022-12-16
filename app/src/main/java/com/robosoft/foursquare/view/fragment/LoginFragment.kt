@@ -29,6 +29,10 @@ class LoginFragment : Fragment() {
 
         loginBinding.loginBtn.isEnabled
 
+        loginBinding.skipTv.setOnClickListener {
+            activity?.startActivity(Intent(activity,HomeActivity::class.java))
+        }
+
         loginBinding.createAccountTv.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(
