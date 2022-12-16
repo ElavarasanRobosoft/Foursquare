@@ -13,10 +13,10 @@ interface ProjectApi {
 
     @Headers("Content-Type: application/json")
     @POST("/signIn")
-    fun login(@Body data : SignInBody) : Call<SignInResponse>
+    fun signIn(@Body data : SignInBody) : Call<SignInResponse>
 
     @Headers("Content-Type: application/json")
     @POST("/signUn")
-    fun login(@Body data : SignUpBody) : Call<SignUpResponse>
+    fun signUp(@Body data : SignUpBody) : Call<SignUpResponse>
 
 }
