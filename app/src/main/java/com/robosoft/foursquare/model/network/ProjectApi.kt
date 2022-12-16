@@ -1,5 +1,9 @@
 package com.robosoft.foursquare.model.network
 
+import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
+import com.robosoft.foursquare.model.dataclass.ResponseMessage
+import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -16,7 +20,23 @@ interface ProjectApi {
     fun signIn(@Body data : SignInBody) : Call<SignInResponse>
 
     @Headers("Content-Type: application/json")
-    @POST("/signUn")
+    @POST("/signUp")
     fun signUp(@Body data : SignUpBody) : Call<SignUpResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/forgotPassword")
+    fun forgetPassword(@Body data : ForgetPasswordBody) : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @POST("/verify")
+    fun verifyOtp(@Body data : VerifyOtpBody) : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @POST("/resendOtp")
+    fun resendOtp(@Body data : ForgetPasswordBody) : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @POST("/forgotPassword/createNewPassword")
+    fun changePassword(@Body data : ChangePasswordBody) : Call<ResponseMessage>
 
 }

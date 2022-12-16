@@ -23,12 +23,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/email_tv"
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:fontFamily="@font/avenir_book"
-            android:text="@string/email"
+            android:text="@string/full_name"
             android:textColor="@color/grey_white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,11 +37,45 @@
 
 
         <EditText
-            android:id="@+id/email_et"
+            android:id="@+id/name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="120dp"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/grey_white"
+            android:fontFamily="@font/avenir_book"
+            android:foregroundTint="@color/grey_white"
+            android:inputType="textPersonName"
+            android:paddingBottom="20dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_iv"
+            tools:text="Elavarasan" />
+
+        <TextView
+            android:id="@+id/email_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/avenir_book"
+            android:text="@string/email"
+            android:textColor="@color/grey_white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_et" />
+
+
+        <EditText
+            android:id="@+id/email_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="39dp"
             android:layout_marginEnd="40dp"
             android:backgroundTint="@color/grey_white"
             android:fontFamily="@font/avenir_book"
@@ -53,7 +87,7 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo_iv"
+            app:layout_constraintTop_toBottomOf="@+id/name_et"
             tools:text="elavarasan@gmail.com" />
 
         <TextView
@@ -77,6 +111,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="39dp"
             android:layout_marginEnd="40dp"
+            android:maxLength="10"
             android:backgroundTint="@color/grey_white"
             android:fontFamily="@font/avenir_book"
             android:foregroundTint="@color/grey_white"
@@ -159,7 +194,7 @@
             tools:text="Ela@1234" />
 
         <Button
-            android:id="@+id/otp_btn"
+            android:id="@+id/submit_btn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="40dp"

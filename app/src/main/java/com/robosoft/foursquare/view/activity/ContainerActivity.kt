@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.ActivityContainerBinding
 import com.robosoft.foursquare.view.fragment.LoginFragment
+import com.robosoft.foursquare.view.fragment.RegistrationFragment
 
 class ContainerActivity : AppCompatActivity() {
 
