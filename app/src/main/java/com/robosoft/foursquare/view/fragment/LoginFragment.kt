@@ -119,8 +119,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateEmail(email: String): Boolean {
-        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val pattern = Pattern.compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$")
         val matcher = pattern.matcher(email)
         return matcher.matches()
     }

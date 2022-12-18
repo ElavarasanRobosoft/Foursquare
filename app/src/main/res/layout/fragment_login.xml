@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".view.activity.fragment.LoginFragment">
+    tools:context=".view.fragment.LoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -61,7 +61,6 @@
             android:foregroundTint="@color/grey_white"
             android:inputType="textEmailAddress"
             android:paddingBottom="20dp"
-            android:text="@={viewmodel.email}"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="23sp"
@@ -96,7 +95,6 @@
             android:foregroundTint="@color/grey_white"
             android:inputType="textWebPassword"
             android:paddingBottom="20dp"
-            android:text="@{viewmodel.password}"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="23sp"
