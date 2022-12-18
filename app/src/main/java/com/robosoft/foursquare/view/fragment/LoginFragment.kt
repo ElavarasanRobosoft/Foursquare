@@ -4,24 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.FragmentLoginBinding
+import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
-import com.robosoft.foursquare.model.network.ProjectApi
 import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.HomeActivity
-import java.util.regex.Pattern
 
 class LoginFragment : Fragment() {
 
     private lateinit var loginBinding: FragmentLoginBinding
     private val projectApi = ProjectService()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,9 +27,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        val email = loginBinding.emailEt.text.toString()
-        val password = loginBinding.passwordEt.text.toString()
-        loginBinding.loginBtn.isClickable
+        loginBinding.loginBtn.isEnabled
 
         loginBinding.createAccountTv.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -44,60 +40,39 @@ class LoginFragment : Fragment() {
         }
 
         loginBinding.forgetPasswordTv.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(
-                    R.id.fragment_container,
-                    OtpFragment()
-                )
-                ?.addToBackStack(null)
-                ?.commit()
-        }
+            val email = loginBinding.emailEt.text.toString()
+            val data = ForgetPasswordBody(email)
+            projectApi.forgetPassword(data) {
+                if (it != null) {
+                    when (it.message) {
+                        "Otp sent, please check your mail" -> {
 
-        loginBinding.loginBtn.setOnClickListener {
-            !loginBinding.loginBtn.isClickable
-            if (validateEmail(email)) {
-                if (validatePassword(password)) {
-                    val data = SignInBody(email, password)
-                    projectApi.signIn(data) {
-                        if (it != null) {
-                            when (it.message) {
-                                "Login successful" -> {
-                                    Log.d("sign in response", it.toString())
-                                    Log.d("accessToken", it.access_token)
-                                    val sharedPreferences =
-                                        activity?.applicationContext?.getSharedPreferences(
-                                            "sharedPreference",
-                                            Context.MODE_PRIVATE
-                                        )
-                                    val editor = sharedPreferences?.edit()
-                                    editor?.putString("accessToken", it.access_token)
-                                    editor?.apply()
-                                    activity?.startActivity(
-                                        Intent(
-                                            activity,
-                                            HomeActivity::class.java
-                                        )
-                                    )
-                                }
-                                "No user found" -> {
-                                    Toast.makeText(
-                                        activity?.applicationContext,
-                                        "Invalid Email Id",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                                else -> {
-                                    Toast.makeText(
-                                        activity?.applicationContext,
-                                        "Invalid Password",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        } else {
+                            val sharedPreferences =
+                                activity?.applicationContext?.getSharedPreferences(
+                                    "sharedPreference",
+                                    Context.MODE_PRIVATE
+                                )
+                            val editor = sharedPreferences?.edit()
+                            editor?.putString("email", loginBinding.emailEt.text.toString())
+                            editor?.apply()
+
                             Toast.makeText(
                                 activity?.applicationContext,
-                                "Something went wrong",
+                                it.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            activity?.supportFragmentManager?.beginTransaction()
+                                ?.replace(
+                                    R.id.fragment_container,
+                                    OtpFragment()
+                                )
+                                ?.addToBackStack(null)
+                                ?.commit()
+                        }
+                        else -> {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "Invalid Email Id",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -105,18 +80,66 @@ class LoginFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         activity?.applicationContext,
-                        "Password must contains atleast one capital letter,small letter,special character,number",
+                        "Enter Email ID",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            } else {
-                Toast.makeText(activity?.applicationContext, "Invalid Email ID", Toast.LENGTH_SHORT)
-                    .show()
             }
         }
 
+        loginBinding.loginBtn.setOnClickListener {
+            val email = loginBinding.emailEt.text.toString()
+            val password = loginBinding.passwordEt.text.toString()
+            val data = SignInBody(email, password)
+            projectApi.signIn(data) {
+                if (it != null) {
+                    when (it.message) {
+                        "Login successful" -> {
+                            Log.d("sign in response", it.toString())
+                            Log.d("accessToken", it.access_token)
+                            val sharedPreferences =
+                                activity?.applicationContext?.getSharedPreferences(
+                                    "sharedPreference",
+                                    Context.MODE_PRIVATE
+                                )
+                            val editor = sharedPreferences?.edit()
+                            editor?.putString("accessToken", it.access_token)
+                            editor?.apply()
+                            activity?.startActivity(
+                                Intent(
+                                    activity,
+                                    HomeActivity::class.java
+                                )
+                            )
+                        }
+                        "No user found" -> {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "Invalid Email Id",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "Invalid Password",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(
+                        activity?.applicationContext,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+        !loginBinding.loginBtn.isEnabled
         return loginBinding.root
     }
+<<<<<<< HEAD
 
     private fun validateEmail(email: String): Boolean {
         val pattern = Pattern.compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$")
@@ -130,3 +153,6 @@ class LoginFragment : Fragment() {
         return matcher.matches()
     }
 }
+=======
+}
+>>>>>>> 8237a9372d8147185e23e14bff8bc4e23c0f90cc

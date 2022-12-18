@@ -10,4 +10,7 @@
     <color name="transparent">#00000000</color>
     <color name="grey_white">#b5abab</color>
     <color name="blue">#3B3C57</color>
+    <color name="violet">#370F24</color>
+    <color name="tab_text">#87797F</color>
+
 </resources>

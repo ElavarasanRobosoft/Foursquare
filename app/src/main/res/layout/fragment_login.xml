@@ -59,15 +59,14 @@
             android:backgroundTint="@color/grey_white"
             android:fontFamily="@font/avenir_book"
             android:foregroundTint="@color/grey_white"
-            android:inputType="textEmailAddress"
             android:paddingBottom="20dp"
+            android:inputType="textEmailAddress"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="23sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo_iv"
-            tools:text="elavarasan@gmail.com" />
+            app:layout_constraintTop_toBottomOf="@+id/logo_iv"/>
 
         <TextView
             android:id="@+id/password_tv"
@@ -93,15 +92,14 @@
             android:backgroundTint="@color/grey_white"
             android:fontFamily="@font/avenir_book"
             android:foregroundTint="@color/grey_white"
-            android:inputType="textWebPassword"
+            android:inputType="textPassword"
             android:paddingBottom="20dp"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="23sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_et"
-            tools:text="Ela@1234" />
+            app:layout_constraintTop_toBottomOf="@+id/email_et" />
 
         <TextView
             android:id="@+id/forgetPassword_tv"
