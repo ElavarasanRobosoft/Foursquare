@@ -24,6 +24,9 @@ class HomeActivity : AppCompatActivity() {
 
         tabLayout = homeBinding.tabLayout
         viewPager2 = homeBinding.viewPager2
+
+
+
         viewPager2.adapter = ViewPagerAdapter(this)
         TabLayoutMediator(tabLayout, viewPager2) { tab, index ->
             tab.text = when (index) {
