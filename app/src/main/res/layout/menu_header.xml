@@ -26,6 +26,7 @@
         android:gravity="center"
         android:textColor="@color/grey_white"
         android:textSize="24sp"
+        android:text="Elavarasan"
         android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -27,6 +27,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
+
         loginBinding.loginBtn.isEnabled
 
         loginBinding.skipTv.setOnClickListener {

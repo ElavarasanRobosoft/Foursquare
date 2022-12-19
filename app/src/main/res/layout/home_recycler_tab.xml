@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="175dp"
+    android:layout_height="165dp"
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp">
@@ -32,14 +32,14 @@
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Attil" />
+            android:text="Attil" />
 
         <TextView
             android:id="@+id/rating_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/custom_rating"
             android:fontFamily="@font/avenir_book"
             android:padding="3dp"
@@ -47,7 +47,7 @@
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
             app:layout_constraintTop_toBottomOf="@+id/hotel_tv"
-            tools:text="8.5" />
+            android:text="8.5" />
 
         <TextView
             android:id="@+id/hotel_type_tv"
@@ -60,7 +60,7 @@
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
             app:layout_constraintTop_toBottomOf="@+id/rating_tv"
-            tools:text="|Indian $$$$ 6.5km" />
+            android:text="|Indian $$$$ 6.5km" />
 
         <TextView
             android:id="@+id/address_tv"
@@ -72,7 +72,7 @@
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
             app:layout_constraintTop_toBottomOf="@+id/hotel_type_tv"
-            tools:text="Daffodils,Laxmindra Nagar, 2nd Cross ..." />
+            android:text="Daffodils,Laxmindra Nagar, 2nd Cross ..." />
 
         <ImageButton
             android:id="@+id/favourite_btn"

@@ -27,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:tabGravity="center"
+            app:tabIndicator="@null"
             app:tabIndicatorColor="@color/transparent"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/white"
@@ -45,12 +46,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@drawable/sidemenu_background"
         android:fitsSystemWindows="true"
+        app:itemVerticalPadding="20dp"
+        app:itemTextAppearance="@style/navText"
         app:headerLayout="@layout/menu_header"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
         app:menu="@menu/navigation_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

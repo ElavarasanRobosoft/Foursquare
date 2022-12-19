@@ -1,35 +1,41 @@
 package com.robosoft.foursquare.view.activity
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.adapter.ViewPagerAdapter
 import com.robosoft.foursquare.databinding.ActivityHomeBinding
-import com.robosoft.foursquare.view.fragment.RegistrationFragment
-import com.robosoft.foursquare.view.fragment.navigationmenu.FavouriteFragment
-import kotlinx.android.synthetic.main.activity_home.*
-import java.nio.channels.AsynchronousFileChannel.open
+import com.robosoft.foursquare.view.activity.menuitems.AboutusActivity
+import com.robosoft.foursquare.view.activity.menuitems.FavouriteActivity
+import com.robosoft.foursquare.view.activity.menuitems.FeedbackActivity
+import com.robosoft.foursquare.view.fragment.home.NearYouFragment
 
 class HomeActivity : AppCompatActivity() {
 
+    private lateinit var homeBinding: ActivityHomeBinding
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navigationView: NavigationView
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var homeBinding: ActivityHomeBinding
+    private lateinit var drawerLayout: DrawerLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,33 +43,36 @@ class HomeActivity : AppCompatActivity() {
         setContentView(homeBinding.root)
 
         drawerLayout = homeBinding.drawerLayout
-        navigationView = homeBinding.navView
-
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this,drawerLayout, R.string.open,R.string.close)
         drawerLayout.addDrawerListener(toggle)
+
         toggle.syncState()
+
         homeBinding.toolbar.menu.setOnClickListener {
             drawerLayout.open()
         }
 
-//        navigationView.setNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.nav_favourites -> {
-//                    startActivity(Intent(this,))
-//                }
-//                R.id.nav_feedback -> {}
-//                R.id.nav_about_us -> {}
-//                R.id.nav_logout -> {}
-//            }
-//        }
-//
-//
-//        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//            if (this.toggle.onOptionsItemSelected(item)) {
-//                return true
-//            }
-//            return false
-//        }
+        val navigationView: NavigationView = homeBinding.navigationView
+
+        navigationView.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.nav_favourites -> {
+                    startActivity(Intent(this,FavouriteActivity::class.java))
+                }
+                R.id.nav_feedback -> {
+                    startActivity(Intent(this,FeedbackActivity::class.java))
+                }
+                R.id.nav_about_us -> {
+                    startActivity(Intent(this,AboutusActivity::class.java))
+                }
+                R.id.nav_logout -> {
+                    Toast.makeText(applicationContext,"Logout",Toast.LENGTH_SHORT).show()
+                }
+            }
+            true
+        }
+
+
 
         tabLayout = homeBinding.tabLayout
         viewPager2 = homeBinding.viewPager2
@@ -84,5 +93,10 @@ class HomeActivity : AppCompatActivity() {
                 super.onPageSelected(position)
             }
         })
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (toggle.onOptionsItemSelected(item)) {
+            true
+        } else super.onOptionsItemSelected(item)
     }
 }
