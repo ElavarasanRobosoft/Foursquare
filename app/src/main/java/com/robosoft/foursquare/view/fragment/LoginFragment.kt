@@ -29,6 +29,10 @@ class LoginFragment : Fragment() {
 
         loginBinding.loginBtn.isEnabled
 
+        loginBinding.skipTv.setOnClickListener {
+            activity?.startActivity(Intent(activity,HomeActivity::class.java))
+        }
+
         loginBinding.createAccountTv.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(
@@ -139,20 +143,4 @@ class LoginFragment : Fragment() {
         !loginBinding.loginBtn.isEnabled
         return loginBinding.root
     }
-<<<<<<< HEAD
-
-    private fun validateEmail(email: String): Boolean {
-        val pattern = Pattern.compile("^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$")
-        val matcher = pattern.matcher(email)
-        return matcher.matches()
-    }
-
-    private fun validatePassword(password: String): Boolean {
-        val pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$")
-        val matcher = pattern.matcher(password)
-        return matcher.matches()
-    }
 }
-=======
-}
->>>>>>> 8237a9372d8147185e23e14bff8bc4e23c0f90cc
