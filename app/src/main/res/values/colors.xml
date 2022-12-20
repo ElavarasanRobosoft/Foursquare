@@ -12,5 +12,7 @@
     <color name="blue">#3B3C57</color>
     <color name="violet">#370F24</color>
     <color name="tab_text">#87797F</color>
-
+    <color name="green">#54C571</color>
+    <color name="yellow">#F5E216</color>
+    <color name="red">#C34A2C</color>
 </resources>

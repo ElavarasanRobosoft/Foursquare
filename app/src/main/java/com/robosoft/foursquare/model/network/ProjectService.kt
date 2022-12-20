@@ -5,6 +5,8 @@ import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
+import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
+import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -109,5 +111,19 @@ class ProjectService {
             }
         })
     }
-}
+    fun getNearByPlaces(data: HotelBody, onResult: (HotelResponse?) -> Unit) {
+        retrofit.getNearByPlaces(data).enqueue(object : Callback<HotelResponse> {
+            override fun onResponse(
+                call: Call<HotelResponse>,
+                response: Response<HotelResponse>
+            ) {
+                Log.d("getNearByPlaces response", response.toString())
+                onResult(response.body())
+            }
 
+            override fun onFailure(call: Call<HotelResponse>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
+}
