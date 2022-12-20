@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_bottom_line.xml" value="0.1715" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_button.xml" value="0.25" />
+        <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_rating.xml" value="0.2465" />
+        <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_rating_red.xml" value="0.2465" />
+        <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_rating_yellow.xml" value="0.2465" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_round.xml" value="0.3235" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_textbox.xml" value="0.3235" />
         <entry key="..\:/Foursquare/app/src/main/res/layout-land/fragment_near_you.xml" value="0.25" />
@@ -32,7 +35,7 @@
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_register.xml" value="0.32587719298245615" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_registration.xml" value="0.2482456140350877" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_toppick.xml" value="0.2754385964912281" />
-        <entry key="..\:/Foursquare/app/src/main/res/layout/home_recycler_tab.xml" value="0.32587719298245615" />
+        <entry key="..\:/Foursquare/app/src/main/res/layout/home_recycler_tab.xml" value="0.67" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/menu_header.xml" value="0.22631578947368422" />
         <entry key="..\:/Foursquare/app/src/main/res/menu/navigation_menu.xml" value="0.5" />
       </map>
