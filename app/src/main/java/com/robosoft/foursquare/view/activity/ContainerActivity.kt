@@ -11,6 +11,8 @@ class ContainerActivity : AppCompatActivity() {
 
     private lateinit var containerActivityBinding: ActivityContainerBinding
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
