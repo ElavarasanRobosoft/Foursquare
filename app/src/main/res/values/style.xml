@@ -12,4 +12,8 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/avenir_medium</item>
     </style>
+    <style name="btnText">
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/avenir_medium</item>
+    </style>
 </resources>

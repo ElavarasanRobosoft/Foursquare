@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/profile_icon"
         android:contentDescription="@string/ImageView" />
 
     <TextView
@@ -26,12 +26,8 @@
         android:gravity="center"
         android:textColor="@color/grey_white"
         android:textSize="24sp"
-<<<<<<< HEAD
         android:layout_marginBottom="40dp"
-=======
         android:text="Elavarasan"
-        android:layout_marginBottom="80dp"
->>>>>>> 6672a91cd795e2fb2e9bb324a04045002504cc91
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
