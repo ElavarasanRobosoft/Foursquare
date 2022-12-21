@@ -37,12 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/avenir_medium"
             android:gravity="center"
-            android:text="Attil"
             android:textColor="@color/white"
-            android:textSize="26sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/share_ibn"
             app:layout_constraintStart_toEndOf="@+id/back_ibn"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,8 +50,8 @@
             android:id="@+id/share_ibn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
             android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
             android:minWidth="50dp"
             android:minHeight="50dp"
             android:src="@drawable/share_icon"
@@ -70,33 +69,62 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RatingBar
+        <LinearLayout
             android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:progressBackgroundTint="@color/transparent"
-            android:progressTint="@color/yellow"
-            android:rating="4.5"
-            android:stepSize="0.5"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/background_img"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" >
+
+            <ImageView
+                android:id="@+id/start_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/rating_icon_unselected_2x"/>
+            <ImageView
+                android:id="@+id/start_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/rating_icon_unselected_2x"/>
+            <ImageView
+                android:id="@+id/start_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/rating_icon_unselected_2x"/>
+            <ImageView
+                android:id="@+id/start_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/rating_icon_unselected_2x"/>
+            <ImageView
+                android:id="@+id/start_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/rating_icon_unselected_2x"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/hotel_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/avenir_book"
             android:lineHeight="32dp"
             android:maxLines="2"
             android:text="Indian Restaurant, Chinese Restaurant and Italian Restaurant"
-            android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/rating_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -161,39 +189,118 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/photo_ibn"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/photo_ibn" />
 
         <TextView
             android:id="@+id/overview_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Overview"
-            android:fontFamily="@font/avenir_book"
-            android:textSize="26sp"
-            android:textColor="#351347"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/line"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/avenir_book"
+            android:text="Overview"
+            android:textColor="#351347"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line" />
 
         <TextView
             android:id="@+id/desc_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/avenir_book"
-            android:textSize="22sp"
             android:textColor="#8D8D8D"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/overview_tv"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/overview_tv" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginTop="30dp"
+            android:background="#F5F5F5"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/desc_tv">
+
+            <fragment
+                android:id="@+id/hotel_map_view"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/hotel_address_tv"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_medium"
+                    android:lineHeight="17dp"
+                    android:paddingStart="30dp"
+                    android:paddingTop="15dp"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hotel_contact_tv"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hotel_address_tv"
+                    android:fontFamily="@font/avenir_medium"
+                    android:lineHeight="17dp"
+                    android:paddingStart="30dp"
+                    android:paddingTop="10dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hotel_distance_tv"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hotel_contact_tv"
+                    android:fontFamily="@font/avenir_medium"
+                    android:lineHeight="17dp"
+                    android:paddingStart="30dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Drive: 5km"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/add_review"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#351347"
+            android:text="Add Review"
+            android:gravity="center"
+            android:textAppearance="@style/btnText"
+            android:textColor="#F7F7F7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bottom_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

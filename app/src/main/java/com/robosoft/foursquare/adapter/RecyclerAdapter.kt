@@ -1,8 +1,9 @@
 package com.robosoft.foursquare.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,16 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
+import com.robosoft.foursquare.view.activity.IndividualHotelContainerActivity
 import com.squareup.picasso.Picasso
 import org.w3c.dom.Text
 import java.lang.reflect.Array.get
 
-class RecyclerAdapter(val context: Context?, val data: HotelResponse) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(private val activity: FragmentActivity?,private val data: HotelResponse) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -40,10 +43,12 @@ class RecyclerAdapter(val context: Context?, val data: HotelResponse) : Recycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val hotelData = data[position]
 
+        val km = hotelData.dist.calculated % 1609
+
         val imageUrl = hotelData.placeImages.url
         holder.hotelImg.let {
             val uri = Uri.parse(imageUrl)
-            Picasso.with(context).load(uri).into(it)
+            Picasso.with(activity).load(uri).into(it)
         }
         holder.hotelName.text = hotelData.placeName
         holder.rating.text = hotelData.totalrating.toString()
@@ -58,15 +63,20 @@ class RecyclerAdapter(val context: Context?, val data: HotelResponse) : Recycler
             holder.rating.setBackgroundResource(R.drawable.custom_rating_red)
                 }
 
-        holder.desc.text = hotelData.priceRange  + hotelData.dist.calculated * 1.609344 + "Km"
-
         holder.address.text = hotelData.address
+
         holder.favourite.setOnClickListener {
             holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
-            Toast.makeText(context,"Added to favourite",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,"Added to favourite",Toast.LENGTH_SHORT).show()
         }
         holder.itemView.setOnClickListener {
-            Toast.makeText(context,hotelData.placeName,Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, IndividualHotelContainerActivity::class.java)
+            intent.putExtra("placeId",hotelData._id)
+            intent.putExtra("placeName",hotelData.placeName)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            activity?.startActivity(intent)
         }
     }
 
