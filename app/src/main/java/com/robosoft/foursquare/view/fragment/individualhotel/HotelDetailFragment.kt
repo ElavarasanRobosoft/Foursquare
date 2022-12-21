@@ -1,60 +1,141 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
 import com.robosoft.foursquare.R
+import com.robosoft.foursquare.databinding.FragmentHotelDetailBinding
+import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
+import com.robosoft.foursquare.model.network.ProjectService
+import com.squareup.picasso.Picasso
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HotelDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HotelDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var hotelDetailBinding: FragmentHotelDetailBinding
+    private lateinit var mMap: GoogleMap
+    private val projectApi = ProjectService()
+    private lateinit var latLng: LatLng
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hotel_detail, container, false)
-    }
+        hotelDetailBinding = FragmentHotelDetailBinding.inflate(inflater, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HotelDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HotelDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+        val bundle = arguments
+        val placeId = bundle?.getString("placeId")
+        val placeName = bundle?.getString("placeName")
+
+        hotelDetailBinding.backIbn.setOnClickListener {
+            activity?.finish()
+        }
+
+        hotelDetailBinding.shareIbn.setOnClickListener {
+            Toast.makeText(activity?.applicationContext, "share", Toast.LENGTH_SHORT).show()
+        }
+
+        hotelDetailBinding.ratingIbn.setOnClickListener {
+            Toast.makeText(activity?.applicationContext, "Rating", Toast.LENGTH_SHORT).show()
+        }
+
+        hotelDetailBinding.photoIbn.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.hotel_container, PhotoFragment())?.addToBackStack(null)?.commit()
+        }
+
+        hotelDetailBinding.reviewIbn.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.hotel_container, PhotoFragment())?.addToBackStack(null)?.commit()
+        }
+        hotelDetailBinding.favIbn.setOnClickListener {
+            Toast.makeText(activity?.applicationContext, "Favourite", Toast.LENGTH_SHORT).show()
+        }
+
+
+        val data = getParticularPlaceDetailsBody(placeId!!, placeName!!)
+        projectApi.getParticularPlaceDetails(data) {
+            if (it == null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Log.d("response", it.toString())
+                val imageUrl = it.placeImages.url
+                hotelDetailBinding.backgroundImg.let { it ->
+                    val uri = Uri.parse(imageUrl)
+                    Picasso.with(activity).load(uri).into(it)
                 }
+
+                when (it.totalrating.toInt() / 2) {
+                    1 -> {
+                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+                    }
+                    2 -> {
+                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+
+                    }
+                    3 -> {
+                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+
+                    }
+                    4 -> {
+                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+
+                    }
+                    5 -> {
+                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_selected_2x)
+                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_selected_2x)
+                    }
+                    else -> {
+                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+                    }
+                }
+
+                latLng = LatLng(it.location.coordinates[0], it.location.coordinates[1])
+                hotelDetailBinding.hotelName.text = it.placeName
+                hotelDetailBinding.descTv.text = it.overview
+                hotelDetailBinding.hotelAddressTv.text = it.address
+                hotelDetailBinding.hotelContactTv.text = it.phoneNumber
             }
+        }
+        hotelDetailBinding.addReview.setOnClickListener {
+            Toast.makeText(activity?.applicationContext, "Add Review", Toast.LENGTH_SHORT).show()
+        }
+        return hotelDetailBinding.root
     }
 }

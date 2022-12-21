@@ -7,6 +7,8 @@ import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
+import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
+import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -122,6 +124,21 @@ class ProjectService {
             }
 
             override fun onFailure(call: Call<HotelResponse>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
+    fun getParticularPlaceDetails(data: getParticularPlaceDetailsBody, onResult: (getParticularPlaceDetailsResponse?) -> Unit) {
+        retrofit.getParticularPlaceDetails(data).enqueue(object : Callback<getParticularPlaceDetailsResponse> {
+            override fun onResponse(
+                call: Call<getParticularPlaceDetailsResponse>,
+                response: Response<getParticularPlaceDetailsResponse>
+            ) {
+                Log.d("getParticularPlaceDetails response", response.toString())
+                onResult(response.body())
+            }
+
+            override fun onFailure(call: Call<getParticularPlaceDetailsResponse>, t: Throwable) {
                 onResult(null)
             }
         })

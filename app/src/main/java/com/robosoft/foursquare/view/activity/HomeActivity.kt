@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -100,7 +101,9 @@ class HomeActivity : AppCompatActivity() {
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
+                Log.d("location",currentLatLong.toString())
                 viewPager2.adapter = ViewPagerAdapter(this,currentLatLong)
+
                 TabLayoutMediator(tabLayout, viewPager2) { tab, index ->
                     tab.text = when (index) {
                         0 -> "Near You"

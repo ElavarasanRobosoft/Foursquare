@@ -57,13 +57,13 @@ class NearYouFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClic
             }
         }
         val data =
-            HotelBody(currentLatLong.latitude.toString(), currentLatLong.longitude.toString())
+            HotelBody(currentLatLong.longitude.toString(),currentLatLong.latitude.toString(),)
         Log.d("currentLatLong", data.toString())
         projectApi.getNearByPlaces(data) {
             if (it != null) {
                 Log.d("response", it.toString())
                 nearYouBinding.nearYouRecyclerView.adapter =
-                    RecyclerAdapter(activity?.applicationContext, it)
+                    RecyclerAdapter(activity, it)
                 nearYouBinding.nearYouRecyclerView.layoutManager =
                     LinearLayoutManager(activity?.applicationContext)
 

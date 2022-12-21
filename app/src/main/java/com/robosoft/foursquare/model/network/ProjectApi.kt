@@ -6,6 +6,8 @@ import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
+import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
+import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -45,5 +47,9 @@ interface ProjectApi {
     @Headers("Content-Type: application/json")
     @POST("/getNearByPlaces")
     fun getNearByPlaces(@Body data : HotelBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getParticularPlaceDetails")
+    fun getParticularPlaceDetails(@Body data : getParticularPlaceDetailsBody) : Call<getParticularPlaceDetailsResponse>
 
 }
