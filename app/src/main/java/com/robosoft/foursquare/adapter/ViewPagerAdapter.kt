@@ -21,7 +21,7 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity, private val currentLa
                 nearYou
             }
             1 -> {
-                val topPick = ToppickFragment()
+                val topPick = TopPickFragment()
                 topPick.arguments = bundle
                 topPick
             }

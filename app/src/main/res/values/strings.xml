@@ -32,4 +32,7 @@
     <string name="close" />
     <string name="open" />
     <string name="ImageView">TODO</string>
+    <string name="add_review">Add Review</string>
+    <string name="favourites">Favourites</string>
+    <string name="about_us">About us</string>
 </resources>

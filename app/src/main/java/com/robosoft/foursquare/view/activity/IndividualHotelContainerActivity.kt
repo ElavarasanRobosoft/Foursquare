@@ -20,11 +20,13 @@ class IndividualHotelContainerActivity : AppCompatActivity() {
         val intent = intent
         val placeId = intent.getStringExtra("placeId")
         val placeName = intent.getStringExtra("placeName")
+        val distance = intent.getStringExtra("distance")
 
         if (savedInstanceState == null){
             val bundle = Bundle()
             bundle.putString("placeId",placeId)
             bundle.putString("placeName",placeName)
+            bundle.putString("distance",distance)
             val fragment = HotelDetailFragment()
             fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(

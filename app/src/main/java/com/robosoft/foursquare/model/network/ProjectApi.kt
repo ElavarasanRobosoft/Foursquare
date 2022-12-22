@@ -3,6 +3,7 @@ package com.robosoft.foursquare.model.network
 import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
@@ -13,6 +14,7 @@ import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
 import com.robosoft.foursquare.model.dataclass.signup.SignUpResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -49,7 +51,31 @@ interface ProjectApi {
     fun getNearByPlaces(@Body data : HotelBody) : Call<HotelResponse>
 
     @Headers("Content-Type: application/json")
+    @POST("/topPicksNearYou")
+    fun topPicks(@Body data: HotelBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/popularPlaces")
+    fun popularPlaces(@Body data: HotelBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/lunchPlace")
+    fun lunchPlace(@Body data: HotelBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/cafePlace")
+    fun cafePlace(@Body data: HotelBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
     @POST("/getParticularPlaceDetails")
     fun getParticularPlaceDetails(@Body data : getParticularPlaceDetailsBody) : Call<getParticularPlaceDetailsResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/giveFeedback")
+    fun giveFeedback(@Body data : FeedbackBody) : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @GET("/aboutUS")
+    fun aboutUS() : Response<ResponseMessage>
 
 }
