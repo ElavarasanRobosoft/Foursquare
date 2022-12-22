@@ -113,34 +113,21 @@ class ProjectService {
             }
         })
     }
-    fun getNearByPlaces(data: HotelBody, onResult: (HotelResponse?) -> Unit) {
-        retrofit.getNearByPlaces(data).enqueue(object : Callback<HotelResponse> {
-            override fun onResponse(
-                call: Call<HotelResponse>,
-                response: Response<HotelResponse>
-            ) {
-                Log.d("getNearByPlaces response", response.toString())
-                onResult(response.body())
-            }
 
-            override fun onFailure(call: Call<HotelResponse>, t: Throwable) {
-                onResult(null)
-            }
-        })
-    }
-    fun getParticularPlaceDetails(data: getParticularPlaceDetailsBody, onResult: (getParticularPlaceDetailsResponse?) -> Unit) {
-        retrofit.getParticularPlaceDetails(data).enqueue(object : Callback<getParticularPlaceDetailsResponse> {
-            override fun onResponse(
-                call: Call<getParticularPlaceDetailsResponse>,
-                response: Response<getParticularPlaceDetailsResponse>
-            ) {
-                Log.d("getParticularPlaceDetails response", response.toString())
-                onResult(response.body())
-            }
+//    fun aboutUS(onResult: (ResponseMessage?) -> Unit) {
+//        retrofit.aboutUS().enqueue(object : Callback<ResponseMessage> {
+//            override fun onResponse(
+//                call: Call<ResponseMessage>,
+//                response: Response<ResponseMessage>
+//            ) {
+//                Log.d("aboutUS response", response.toString())
+//                onResult(response.body())
+//            }
+//
+//            override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
+//                onResult(null)
+//            }
+//        })
+//    }
 
-            override fun onFailure(call: Call<getParticularPlaceDetailsResponse>, t: Throwable) {
-                onResult(null)
-            }
-        })
-    }
 }

@@ -9,7 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,15 +22,17 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.robosoft.foursquare.R
-import com.robosoft.foursquare.adapter.RecyclerAdapter
+import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.FragmentNearYouBinding
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.network.ProjectService
+import com.robosoft.foursquare.viewModel.NearYouViewModel
 
 
 class NearYouFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var nearYouBinding: FragmentNearYouBinding
+    private lateinit var viewModel: NearYouViewModel
     private lateinit var mMap: GoogleMap
     private lateinit var currentLatLong: LatLng
     private val projectApi = ProjectService()
@@ -42,13 +48,6 @@ class NearYouFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClic
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        nearYouBinding = FragmentNearYouBinding.inflate(inflater, container, false)
-
-        val mapFragment = childFragmentManager
-            .findFragmentById(R.id.map_view) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
-
         val latitude = arguments?.getString("lat")
         val longitude = arguments?.getString("long")
         if (latitude != null) {
@@ -56,17 +55,23 @@ class NearYouFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClic
                 currentLatLong = LatLng(latitude.toDouble(), longitude.toDouble())
             }
         }
-        val data =
-            HotelBody(currentLatLong.longitude.toString(),currentLatLong.latitude.toString(),)
-        Log.d("currentLatLong", data.toString())
-        projectApi.getNearByPlaces(data) {
+        Log.d("currentLatLong response", currentLatLong.toString())
+        // Inflate the layout for this fragment
+        nearYouBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_near_you,container, false)
+
+        val mapFragment = childFragmentManager
+            .findFragmentById(R.id.map_view) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        val data = HotelBody(currentLatLong.latitude.toString(),currentLatLong.longitude.toString())
+        viewModel = ViewModelProvider(this)[NearYouViewModel::class.java]
+        viewModel.getNearYouLiveDataObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                Log.d("response", it.toString())
-                nearYouBinding.nearYouRecyclerView.adapter =
-                    RecyclerAdapter(activity, it)
+                Log.d("topPickresponse", it.toString())
                 nearYouBinding.nearYouRecyclerView.layoutManager =
                     LinearLayoutManager(activity?.applicationContext)
-
+                nearYouBinding.nearYouRecyclerView.adapter =
+                    ViewModelRecyclerAdapter(activity, it,lifecycleScope)
             } else {
                 Toast.makeText(
                     activity?.applicationContext,
@@ -74,7 +79,8 @@ class NearYouFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClic
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
+        })
+        viewModel.getNearByPlaces(data)
 
 
 //        fusedLocationClient =

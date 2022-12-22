@@ -15,21 +15,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.model.LatLng
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
-import com.robosoft.foursquare.databinding.FragmentCoffeeBinding
+import com.robosoft.foursquare.databinding.FragmentToppickBinding
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
-import com.robosoft.foursquare.viewModel.CoffeeViewModel
+import com.robosoft.foursquare.viewModel.TopPickViewModel
 
+class TopPickFragment() : Fragment() {
 
-
-class CoffeeFragment : Fragment() {
-    private lateinit var coffeeBinding: FragmentCoffeeBinding
-    private lateinit var viewModel: CoffeeViewModel
+    private lateinit var toppickBinding: FragmentToppickBinding
+    private lateinit var viewModel: TopPickViewModel
     private lateinit var currentLatLong: LatLng
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val latitude = arguments?.getString("lat")
         val longitude = arguments?.getString("long")
         if (latitude != null) {
@@ -39,15 +38,15 @@ class CoffeeFragment : Fragment() {
         }
         Log.d("currentLatLong response", currentLatLong.toString())
         // Inflate the layout for this fragment
-        coffeeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_coffee,container, false)
+        toppickBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_toppick,container, false)
         val data = HotelBody(currentLatLong.latitude.toString(),currentLatLong.longitude.toString())
-        viewModel = ViewModelProvider(this)[CoffeeViewModel::class.java]
-        viewModel.getCoffeeLiveDataObserver().observe(viewLifecycleOwner, Observer {
+        viewModel = ViewModelProvider(this)[TopPickViewModel::class.java]
+        viewModel.getTopPickLiveDataObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Log.d("topPickresponse", it.toString())
-                coffeeBinding.coffeeRecyclerView.layoutManager =
+                toppickBinding.toppickRecyclerView.layoutManager =
                     LinearLayoutManager(activity?.applicationContext)
-                coffeeBinding.coffeeRecyclerView.adapter =
+                toppickBinding.toppickRecyclerView.adapter =
                     ViewModelRecyclerAdapter(activity, it,lifecycleScope)
             } else {
                 Toast.makeText(
@@ -57,8 +56,8 @@ class CoffeeFragment : Fragment() {
                 ).show()
             }
         })
-        viewModel.cafePlace(data)
+        viewModel.topPick(data)
 
-        return coffeeBinding.root
+        return toppickBinding.root
     }
 }

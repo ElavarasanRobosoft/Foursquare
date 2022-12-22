@@ -8,5 +8,6 @@ data class getParticularPlaceDetailsResponse(
     val phoneNumber: String,
     val placeImages: PlaceImages,
     val placeName: String,
+    val keywords: String,
     val totalrating: String
 )
