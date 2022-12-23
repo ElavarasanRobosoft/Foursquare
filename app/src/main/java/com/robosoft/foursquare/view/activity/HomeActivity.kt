@@ -1,6 +1,7 @@
 package com.robosoft.foursquare.view.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -101,6 +102,15 @@ class HomeActivity : AppCompatActivity() {
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
+                val sharedPreferences =
+                    this.getSharedPreferences(
+                        "sharedPreference",
+                        Context.MODE_PRIVATE
+                    )
+                val editor = sharedPreferences?.edit()
+                editor?.putString("currentLat",location.latitude.toString())
+                editor?.putString("currentLong",location.longitude.toString())
+                editor?.apply()
                 Log.d("location",currentLatLong.toString())
                 viewPager2.adapter = ViewPagerAdapter(this,currentLatLong)
 

@@ -38,6 +38,10 @@ class HotelDetailFragment : Fragment() {
         val placeName = bundle?.getString("placeName")
         val distance = bundle?.getString("distance")
 
+        val placeBundle =  Bundle()
+        placeBundle.putString("placeId",placeId)
+        placeBundle.putString("placeName",placeName)
+
         viewModel = ViewModelProvider(this)[HotelDetailViewModel::class.java]
 
         hotelDetailBinding.backIbn.setOnClickListener {
@@ -58,8 +62,10 @@ class HotelDetailFragment : Fragment() {
         }
 
         hotelDetailBinding.reviewIbn.setOnClickListener {
+            val review = ReviewFragment()
+            review.arguments = placeBundle
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, ReviewFragment())?.addToBackStack(null)?.commit()
+                ?.replace(R.id.hotel_container, review)?.addToBackStack(null)?.commit()
         }
         hotelDetailBinding.favIbn.setOnClickListener {
             Toast.makeText(activity?.applicationContext, "Favourite", Toast.LENGTH_SHORT).show()

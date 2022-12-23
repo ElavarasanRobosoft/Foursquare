@@ -36,4 +36,6 @@
     <string name="favourites">Favourites</string>
     <string name="about_us">About us</string>
     <string name="feedback">Feedback</string>
+    <string name="write_your_feedback">Write your feedback</string>
+    <string name="add_feedback">Add Feedback</string>
 </resources>
