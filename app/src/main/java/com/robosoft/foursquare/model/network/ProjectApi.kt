@@ -76,6 +76,6 @@ interface ProjectApi {
 
     @Headers("Content-Type: application/json")
     @GET("/aboutUS")
-    fun aboutUS() : Response<ResponseMessage>
+    fun aboutUS() : Call<ResponseMessage>
 
 }
