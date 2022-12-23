@@ -10,6 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         tools:context=".view.fragment.individualhotel.HotelDetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -246,7 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:layout_marginTop="30dp"
-                android:background="FF#F5F5F5"
+                android:background="#F5F5F5"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

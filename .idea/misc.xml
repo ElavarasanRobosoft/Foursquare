@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Foursquare/app/src/main/res/drawable-xhdpi/cursor_custom.xml" value="0.2365" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_bottom_line.xml" value="0.1715" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_button.xml" value="0.25" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_rating.xml" value="0.2465" />
@@ -12,7 +13,7 @@
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_search_bg.xml" value="0.37" />
         <entry key="..\:/Foursquare/app/src/main/res/drawable/custom_textbox.xml" value="0.3235" />
         <entry key="..\:/Foursquare/app/src/main/res/layout-land/fragment_near_you.xml" value="0.25" />
-        <entry key="..\:/Foursquare/app/src/main/res/layout/activity_aboutus.xml" value="0.23114035087719298" />
+        <entry key="..\:/Foursquare/app/src/main/res/layout/activity_aboutus.xml" value="0.25" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/activity_container.xml" value="0.25" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/activity_favourite.xml" value="0.33" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/activity_feedback.xml" value="0.21929824561403508" />
