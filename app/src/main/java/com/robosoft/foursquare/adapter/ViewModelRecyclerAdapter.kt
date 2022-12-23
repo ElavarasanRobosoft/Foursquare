@@ -63,7 +63,7 @@ class ViewModelRecyclerAdapter(
             holder.rating.setBackgroundResource(R.drawable.custom_rating_red)
         }
 
-        holder.desc.text = hotelData.keywords.removeRange(8,(hotelData.keywords).length)
+        holder.desc.text = hotelData.keywords
 
         when (hotelData.priceRange.length) {
             1 -> {
