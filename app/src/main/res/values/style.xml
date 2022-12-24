@@ -16,4 +16,9 @@
         <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/avenir_medium</item>
     </style>
+
+    <style name="customRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_rating_bar</item>
+    </style>
+
 </resources>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -32,20 +32,18 @@
 
             <TextView
                 android:id="@+id/hotel_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/review_back"
-                android:fontFamily="@font/avenir_book"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
+                android:ellipsize="end"
+                android:lines="1"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/avenir_book"
                 android:textColor="@color/white"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/review_back"
-                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Attil" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/overview_tv"

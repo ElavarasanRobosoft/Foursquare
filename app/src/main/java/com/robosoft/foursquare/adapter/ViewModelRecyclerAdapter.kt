@@ -96,6 +96,7 @@ class ViewModelRecyclerAdapter(
             intent.putExtra("placeId", hotelData._id)
             intent.putExtra("placeName", hotelData.placeName)
             intent.putExtra("distance", km)
+            intent.putExtra("rating",hotelData.totalrating.toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
