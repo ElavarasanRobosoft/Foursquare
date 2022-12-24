@@ -36,8 +36,16 @@ class ReviewFragment : Fragment() {
         val placeId = placeBundle?.getString("placeId")
         val placeName = placeBundle?.getString("placeName")
 
+        reviewBinding.reviewBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         reviewBinding.hotelName.text = placeName
         val data = GetReviewResponseBody(placeId.toString())
+
+        reviewBinding.addReviewIbn.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.hotel_container,AddReviewFragment())?.commit()
+        }
 
         viewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
         viewModel.getReviewLiveDataObserver().observe(viewLifecycleOwner, Observer {

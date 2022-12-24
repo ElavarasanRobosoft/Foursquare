@@ -1,11 +1,15 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -37,6 +41,9 @@ class HotelDetailFragment : Fragment() {
         val placeId = bundle?.getString("placeId")
         val placeName = bundle?.getString("placeName")
         val distance = bundle?.getString("distance")
+        val rating = bundle?.getString("rating")
+
+        Log.d("rating",rating.toString())
 
         val placeBundle =  Bundle()
         placeBundle.putString("placeId",placeId)
@@ -53,12 +60,32 @@ class HotelDetailFragment : Fragment() {
         }
 
         hotelDetailBinding.ratingIbn.setOnClickListener {
-            Toast.makeText(activity?.applicationContext, "Rating", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(requireActivity())
+                .create()
+            val view = layoutInflater.inflate(R.layout.rating_alertbox, null)
+            val closeButton = view.findViewById<ImageButton>(R.id.close_rating)
+            val ratingText = view.findViewById<TextView>(R.id.overall_rating)
+//            val ratingValue = view.findViewById<Ra>()
+            val submitRating = view.findViewById<TextView>(R.id.submit_rating)
+            builder.setView(view)
+
+            ratingText.text = rating
+
+            closeButton.setOnClickListener {
+                builder.dismiss()
+            }
+            submitRating.setOnClickListener {
+                Toast.makeText(activity?.applicationContext,"submit",Toast.LENGTH_SHORT).show()
+            }
+            builder.setCanceledOnTouchOutside(false)
+            builder.show()
         }
 
         hotelDetailBinding.photoIbn.setOnClickListener {
+            val photo = PhotoFragment()
+            photo.arguments = placeBundle
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, PhotoFragment())?.addToBackStack(null)?.commit()
+                ?.replace(R.id.hotel_container, photo)?.addToBackStack(null)?.commit()
         }
 
         hotelDetailBinding.reviewIbn.setOnClickListener {
@@ -142,7 +169,7 @@ class HotelDetailFragment : Fragment() {
                 hotelDetailBinding.descTv.text = it.overview
                 hotelDetailBinding.hotelAddressTv.text = it.address
                 hotelDetailBinding.hotelContactTv.text = it.phoneNumber
-                hotelDetailBinding.hotelDistanceTv.text = "Drive :$distance: Km"
+                hotelDetailBinding.hotelDistanceTv.text = "Drive : $distance Km"
             }
         })
         viewModel.getParticularPlaceDetails(data)

@@ -10,6 +10,7 @@ import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
+import com.robosoft.foursquare.model.dataclass.photoReview.PhotoReviewResponse
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponse
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
@@ -85,5 +86,9 @@ interface ProjectApi {
     @Headers("Content-Type: application/json")
     @POST("/getOnlyReviewsText")
     fun getOnlyReviewsText(@Body data: GetReviewResponseBody) : Call<GetReviewResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getImagesByPlaceId")
+    fun getImagesByPlaceId(@Body data: GetReviewResponseBody) : Call<PhotoReviewResponse>
 
 }
