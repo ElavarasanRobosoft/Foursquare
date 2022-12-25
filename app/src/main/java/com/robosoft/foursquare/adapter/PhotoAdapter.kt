@@ -1,18 +1,15 @@
 package com.robosoft.foursquare.adapter
 
-import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.model.dataclass.photoReview.PhotoReviewResponse
-import com.robosoft.foursquare.view.activity.IndividualHotelContainerActivity
 import com.robosoft.foursquare.view.fragment.individualhotel.IndividualPhotoFragment
 import com.squareup.picasso.Picasso
 
@@ -43,7 +40,10 @@ class PhotoAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.hotel_container,IndividualPhotoFragment())?.commit()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.hotel_container, IndividualPhotoFragment())
+                ?.addToBackStack(null)
+                ?.commit()
         }
 
     }

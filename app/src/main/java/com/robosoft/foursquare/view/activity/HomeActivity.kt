@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.adapter.ViewPagerAdapter
 import com.robosoft.foursquare.databinding.ActivityHomeBinding
+import com.robosoft.foursquare.model.dataclass.LatLong
 import com.robosoft.foursquare.view.activity.menuitems.AboutusActivity
 import com.robosoft.foursquare.view.activity.menuitems.FavouriteActivity
 import com.robosoft.foursquare.view.activity.menuitems.FeedbackActivity
@@ -38,6 +39,8 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private lateinit var latLng: LatLong
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -102,6 +105,9 @@ class HomeActivity : AppCompatActivity() {
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
+
+                latLng = LatLong(location.latitude, location.longitude)
+
                 val sharedPreferences =
                     this.getSharedPreferences(
                         "sharedPreference",
@@ -130,6 +136,11 @@ class HomeActivity : AppCompatActivity() {
                     }
                 })
             }
+        }
+       homeBinding.toolbar.searchIbn.setOnClickListener {
+
+        }
+        homeBinding.toolbar.filterIbn.setOnClickListener {
         }
     }
 

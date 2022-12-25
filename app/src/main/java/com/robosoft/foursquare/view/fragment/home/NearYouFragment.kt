@@ -35,7 +35,6 @@ class NearYouFragment() : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClic
     private lateinit var viewModel: NearYouViewModel
     private lateinit var mMap: GoogleMap
     private lateinit var currentLatLong: LatLng
-    private val projectApi = ProjectService()
 //    private lateinit var lastLocation: Location
 //    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
