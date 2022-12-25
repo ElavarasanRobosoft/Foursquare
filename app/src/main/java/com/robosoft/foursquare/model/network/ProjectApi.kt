@@ -14,7 +14,6 @@ import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
 import com.robosoft.foursquare.model.dataclass.signup.SignUpResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -76,6 +75,6 @@ interface ProjectApi {
 
     @Headers("Content-Type: application/json")
     @GET("/aboutUS")
-    fun aboutUS() : Response<ResponseMessage>
+    fun aboutUS() : ResponseMessage
 
 }

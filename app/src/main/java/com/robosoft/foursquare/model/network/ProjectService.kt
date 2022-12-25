@@ -114,20 +114,20 @@ class ProjectService {
         })
     }
 
-//    fun aboutUS(onResult: (ResponseMessage?) -> Unit) {
-//        retrofit.aboutUS().enqueue(object : Callback<ResponseMessage> {
-//            override fun onResponse(
-//                call: Call<ResponseMessage>,
-//                response: Response<ResponseMessage>
-//            ) {
-//                Log.d("aboutUS response", response.toString())
-//                onResult(response.body())
-//            }
-//
-//            override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
-//                onResult(null)
-//            }
-//        })
-//    }
+    fun aboutUS(onResult: (ResponseMessage?) -> Unit) {
+        retrofit.aboutUS().enqueue(object : Callback<ResponseMessage> {
+            override fun onResponse(
+                call: Call<ResponseMessage>,
+                response: Response<ResponseMessage>
+            ) {
+                Log.d("aboutUS response", response.toString())
+                onResult(response.body())
+            }
+
+            override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
 
 }
