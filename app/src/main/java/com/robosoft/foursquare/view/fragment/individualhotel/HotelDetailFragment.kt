@@ -1,18 +1,31 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.FragmentHotelDetailBinding
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
@@ -20,7 +33,7 @@ import com.robosoft.foursquare.viewModel.HotelDetailViewModel
 import com.squareup.picasso.Picasso
 
 
-class HotelDetailFragment : Fragment() {
+class HotelDetailFragment : Fragment(){
 
     private lateinit var hotelDetailBinding: FragmentHotelDetailBinding
     private lateinit var mMap: GoogleMap
@@ -30,13 +43,26 @@ class HotelDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        hotelDetailBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_hotel_detail,container, false)
+        hotelDetailBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_hotel_detail, container, false)
         val bundle = arguments
         val placeId = bundle?.getString("placeId")
         val placeName = bundle?.getString("placeName")
         val distance = bundle?.getString("distance")
+        val rating = bundle?.getString("rating")
+
+        Log.d("rating", rating.toString())
+
+        val placeBundle = Bundle()
+        placeBundle.putString("placeId", placeId)
+        placeBundle.putString("placeName", placeName)
+
+//        val mapFragment = childFragmentManager
+//            .findFragmentById(R.id.hotel_map_view) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
+
 
         viewModel = ViewModelProvider(this)[HotelDetailViewModel::class.java]
 
@@ -49,17 +75,39 @@ class HotelDetailFragment : Fragment() {
         }
 
         hotelDetailBinding.ratingIbn.setOnClickListener {
-            Toast.makeText(activity?.applicationContext, "Rating", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(requireActivity(),R.style.CustomDialog)
+                .create()
+            val view = layoutInflater.inflate(R.layout.rating_alertbox, null)
+            val closeButton = view.findViewById<ImageButton>(R.id.close_rating)
+            val ratingText = view.findViewById<TextView>(R.id.overall_rating)
+//            val ratingValue = view.findViewById<Ra>()
+            val submitRating = view.findViewById<TextView>(R.id.submit_rating)
+            builder.setView(view)
+
+            ratingText.text = rating
+
+            closeButton.setOnClickListener {
+                builder.dismiss()
+            }
+            submitRating.setOnClickListener {
+                Toast.makeText(activity?.applicationContext, "submit", Toast.LENGTH_SHORT).show()
+            }
+            builder.setCanceledOnTouchOutside(false)
+            builder.show()
         }
 
         hotelDetailBinding.photoIbn.setOnClickListener {
+            val photo = PhotoFragment()
+            photo.arguments = placeBundle
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, PhotoFragment())?.addToBackStack(null)?.commit()
+                ?.replace(R.id.hotel_container, photo)?.addToBackStack(null)?.commit()
         }
 
         hotelDetailBinding.reviewIbn.setOnClickListener {
+            val review = ReviewFragment()
+            review.arguments = placeBundle
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, ReviewFragment())?.addToBackStack(null)?.commit()
+                ?.replace(R.id.hotel_container, review)?.addToBackStack(null)?.commit()
         }
         hotelDetailBinding.favIbn.setOnClickListener {
             Toast.makeText(activity?.applicationContext, "Favourite", Toast.LENGTH_SHORT).show()
@@ -67,7 +115,7 @@ class HotelDetailFragment : Fragment() {
 
         val data = getParticularPlaceDetailsBody(placeId!!, placeName!!)
 
-        viewModel.getHotelDetailDataObserver().observe(viewLifecycleOwner, Observer{
+        viewModel.getHotelDetailDataObserver().observe(viewLifecycleOwner, Observer {
             if (it == null) {
                 Toast.makeText(
                     activity?.applicationContext,
@@ -130,14 +178,17 @@ class HotelDetailFragment : Fragment() {
                     }
                 }
 
-                latLng = LatLng(it.location.coordinates[0], it.location.coordinates[1])
+//                val hotelLatLong = LatLng(it.location.coordinates[0], it.location.coordinates[1])
+//                getLatLong(hotelLatLong)
+
                 hotelDetailBinding.hotelName.text = it.placeName
                 hotelDetailBinding.hotelDesc.text = it.keywords
                 hotelDetailBinding.descTv.text = it.overview
                 hotelDetailBinding.hotelAddressTv.text = it.address
                 hotelDetailBinding.hotelContactTv.text = it.phoneNumber
-                hotelDetailBinding.hotelDistanceTv.text = "Drive :$distance: Km"
+                hotelDetailBinding.hotelDistanceTv.text = "Drive : $distance Km"
             }
+
         })
         viewModel.getParticularPlaceDetails(data)
 
@@ -147,4 +198,17 @@ class HotelDetailFragment : Fragment() {
         }
         return hotelDetailBinding.root
     }
+
+//    private fun getLatLong(hotelLatLong: LatLng): LatLng {
+//        return hotelLatLong
+//    }
+
+//    override fun onMapReady(googleMap: GoogleMap?) {
+//        if (googleMap != null) {
+//            mMap = googleMap
+//
+//            mMap.addMarker(MarkerOptions().position(latLng))
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+//        }
+//    }
 }

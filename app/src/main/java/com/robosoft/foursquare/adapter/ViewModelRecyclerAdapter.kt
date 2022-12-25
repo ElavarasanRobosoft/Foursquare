@@ -63,7 +63,7 @@ class ViewModelRecyclerAdapter(
             holder.rating.setBackgroundResource(R.drawable.custom_rating_red)
         }
 
-        holder.desc.text = hotelData.keywords.removeRange(8,(hotelData.keywords).length)
+        holder.desc.text = hotelData.keywords
 
         when (hotelData.priceRange.length) {
             1 -> {
@@ -96,6 +96,7 @@ class ViewModelRecyclerAdapter(
             intent.putExtra("placeId", hotelData._id)
             intent.putExtra("placeName", hotelData.placeName)
             intent.putExtra("distance", km)
+            intent.putExtra("rating",hotelData.totalrating.toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

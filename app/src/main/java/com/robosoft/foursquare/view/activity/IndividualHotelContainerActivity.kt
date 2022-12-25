@@ -1,10 +1,8 @@
 package com.robosoft.foursquare.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.robosoft.foursquare.R
+import androidx.appcompat.app.AppCompatActivity
 import com.robosoft.foursquare.databinding.ActivityIndividualHotelContainerBinding
-import com.robosoft.foursquare.view.fragment.LoginFragment
 import com.robosoft.foursquare.view.fragment.individualhotel.HotelDetailFragment
 
 class IndividualHotelContainerActivity : AppCompatActivity() {
@@ -14,19 +12,22 @@ class IndividualHotelContainerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        individualHotelContainerBinding = ActivityIndividualHotelContainerBinding.inflate(layoutInflater)
+        individualHotelContainerBinding =
+            ActivityIndividualHotelContainerBinding.inflate(layoutInflater)
         setContentView(individualHotelContainerBinding.root)
 
         val intent = intent
         val placeId = intent.getStringExtra("placeId")
         val placeName = intent.getStringExtra("placeName")
         val distance = intent.getStringExtra("distance")
+        val rating = intent.getStringExtra("rating")
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             val bundle = Bundle()
-            bundle.putString("placeId",placeId)
-            bundle.putString("placeName",placeName)
-            bundle.putString("distance",distance)
+            bundle.putString("placeId", placeId)
+            bundle.putString("placeName", placeName)
+            bundle.putString("distance", distance)
+            bundle.putString("rating",rating)
             val fragment = HotelDetailFragment()
             fragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(

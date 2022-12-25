@@ -35,4 +35,13 @@
     <string name="add_review">Add Review</string>
     <string name="favourites">Favourites</string>
     <string name="about_us">About us</string>
+    <string name="feedback">Feedback</string>
+    <string name="write_your_feedback">Write your feedback</string>
+    <string name="add_feedback">Add Feedback</string>
+    <string name="ovarall_rating">Ovarall Rating</string>
+    <string name="how_would_you_rate_your_experience">How would you rate your experience?</string>
+    <string name="submitRating">Submit</string>
+    <string name="near_me">Near Me</string>
+    <string name="search">Search</string>
+    <string name="done">Done</string>
 </resources>

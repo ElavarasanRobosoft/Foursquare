@@ -4,20 +4,24 @@ import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
+import com.robosoft.foursquare.model.dataclass.feedback.FeedbackResponse
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
+import com.robosoft.foursquare.model.dataclass.photoReview.ParticularImageResponse
+import com.robosoft.foursquare.model.dataclass.photoReview.ParticularPhotoBody
+import com.robosoft.foursquare.model.dataclass.photoReview.PhotoReviewResponse
+import com.robosoft.foursquare.model.dataclass.review.GetReviewResponse
+import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
 import com.robosoft.foursquare.model.dataclass.signup.SignUpResponse
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.Response
+import retrofit2.http.*
 
 interface ProjectApi {
 
@@ -70,11 +74,27 @@ interface ProjectApi {
     fun getParticularPlaceDetails(@Body data : getParticularPlaceDetailsBody) : Call<getParticularPlaceDetailsResponse>
 
     @Headers("Content-Type: application/json")
+    @POST("/getFavourite")
+    fun getFavourite(@Header("authorization") access_token: String, @Body data: HotelBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
     @POST("/giveFeedback")
-    fun giveFeedback(@Body data : FeedbackBody) : Call<ResponseMessage>
+    fun giveFeedback(@Header("authorization") access_token: String, @Body data : FeedbackBody) : Call<FeedbackResponse>
 
     @Headers("Content-Type: application/json")
     @GET("/aboutUS")
-    fun aboutUS() : ResponseMessage
+    fun aboutUS() : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getOnlyReviewsText")
+    fun getOnlyReviewsText(@Body data: GetReviewResponseBody) : Call<GetReviewResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getImagesByPlaceId")
+    fun getImagesByPlaceId(@Body data: GetReviewResponseBody) : Call<PhotoReviewResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getDetailsOfParticularImage")
+    fun getDetailsOfParticularImage(@Body data: ParticularPhotoBody) : Call<ParticularImageResponse>
 
 }
