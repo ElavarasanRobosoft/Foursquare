@@ -41,4 +41,7 @@
     <string name="ovarall_rating">Ovarall Rating</string>
     <string name="how_would_you_rate_your_experience">How would you rate your experience?</string>
     <string name="submitRating">Submit</string>
+    <string name="near_me">Near Me</string>
+    <string name="search">Search</string>
+    <string name="done">Done</string>
 </resources>

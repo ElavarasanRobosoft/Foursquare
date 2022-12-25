@@ -19,6 +19,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Foursquare"
         tools:targetApi="31">
+        <activity
+            android:name=".FilterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity"
+            android:exported="false" />
+        <activity
+            android:name=".HotelContainerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchFilterContainerActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -35,10 +50,10 @@
             android:exported="false" />
         <activity
             android:name=".view.activity.IndividualHotelContainerActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".view.activity.ContainerActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".view.activity.HomeActivity"
             android:exported="false" />
@@ -52,5 +67,5 @@
             </intent-filter>
         </activity>
     </application>
-</manifest>
 
+</manifest>
