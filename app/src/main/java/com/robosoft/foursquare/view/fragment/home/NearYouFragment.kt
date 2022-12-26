@@ -25,7 +25,6 @@ import com.robosoft.foursquare.R
 import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.FragmentNearYouBinding
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
-import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.viewModel.NearYouViewModel
 
 

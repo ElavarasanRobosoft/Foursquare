@@ -11,11 +11,14 @@ import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
-import com.robosoft.foursquare.model.dataclass.photoReview.ParticularImageResponse
-import com.robosoft.foursquare.model.dataclass.photoReview.ParticularPhotoBody
+import com.robosoft.foursquare.model.dataclass.nearbyplace.GetNearByCity
+//import com.robosoft.foursquare.model.dataclass.photoReview.ParticularImageResponse
+//import com.robosoft.foursquare.model.dataclass.photoReview.ParticularPhotoBody
 import com.robosoft.foursquare.model.dataclass.photoReview.PhotoReviewResponse
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponse
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
+import com.robosoft.foursquare.model.dataclass.search.SearchPlaceBody
+import com.robosoft.foursquare.model.dataclass.search.SearchPlaceResponseBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -95,11 +98,15 @@ interface ProjectApi {
     fun getImagesByPlaceId(@Body data: GetReviewResponseBody) : Call<PhotoReviewResponse>
 
     @Headers("Content-Type: application/json")
-    @POST("/getDetailsOfParticularImage")
-    fun getDetailsOfParticularImage(@Body data: ParticularPhotoBody) : Call<ParticularImageResponse>
-
-    @Headers("Content-Type: application/json")
     @POST("/searchFromFavourite")
     fun searchFromFavourite(@Header("authorization") access_token: String, @Body data: GetFavSearchBody) : Call<HotelResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getNearByCity")
+    fun getNearByCity(@Body data: HotelBody) : Call<GetNearByCity>
+
+    @Headers("Content-Type: application/json")
+    @POST("/searchPlace")
+    fun getSearchPlace(@Body data: SearchPlaceBody) : Call<SearchPlaceResponseBody>
 
 }

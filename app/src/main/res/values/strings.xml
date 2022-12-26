@@ -44,4 +44,7 @@
     <string name="near_me">Near Me</string>
     <string name="search">Search</string>
     <string name="done">Done</string>
+    <string name="near_by_places">Near by places</string>
+    <string name="map_view">Map View</string>
+    <string name="list_view">List View</string>
 </resources>

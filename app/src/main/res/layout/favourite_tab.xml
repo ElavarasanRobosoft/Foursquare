@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="132dp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp">
+    android:layout_marginEnd="10dp"
+    app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,12 +29,12 @@
             android:layout_marginStart="10dp"
             android:ellipsize="end"
             android:fontFamily="@font/avenir_medium"
-            tools:text="Attil"
             android:paddingTop="10dp"
             android:textColor="#1D1D26"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Attil" />
 
         <TextView
             android:id="@+id/rating_tv"
@@ -44,12 +45,12 @@
             android:background="@drawable/custom_rating_green"
             android:fontFamily="@font/avenir_book"
             android:padding="3dp"
-            tools:text="8.5"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
-            app:layout_constraintTop_toBottomOf="@+id/hotel_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/hotel_tv"
+            tools:text="8.5" />
 
         <LinearLayout
             android:id="@+id/decs_layout"
@@ -67,9 +68,9 @@
                 android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:fontFamily="@font/avenir_book"
-                tools:text="Indian"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="Indian" />
 
             <TextView
                 android:id="@+id/hotel_rate_tv"
@@ -78,9 +79,9 @@
                 android:layout_marginStart="5dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/avenir_book"
-                tools:text="$$$$"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="$$$$" />
 
             <TextView
                 android:id="@+id/hotel_distance_tv"
@@ -89,9 +90,9 @@
                 android:layout_marginStart="5dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/avenir_book"
-                tools:text="4.5 Km"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="4.5 Km" />
 
         </LinearLayout>
 
@@ -104,11 +105,11 @@
             android:ellipsize="end"
             android:fontFamily="@font/avenir_book"
             android:maxLines="1"
-            tools:text="Daffodils,Laxmindra Nagar, 2nd Cross ..."
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/hotel_img"
-            app:layout_constraintTop_toBottomOf="@+id/decs_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/decs_layout"
+            tools:text="Daffodils,Laxmindra Nagar, 2nd Cross ..." />
 
         <ImageButton
             android:id="@+id/remove_btn"

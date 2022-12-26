@@ -137,13 +137,14 @@ class HomeActivity : AppCompatActivity() {
                 })
             }
         }
-       homeBinding.toolbar.searchIbn.setOnClickListener {
+        homeBinding.toolbar.searchIbn.setOnClickListener {
             startActivity(Intent(this,SearchActivity::class.java))
         }
         homeBinding.toolbar.filterIbn.setOnClickListener {
-            startActivity(Intent(this,SearchActivity::class.java))
+            startActivity(Intent(this,FilterActivity::class.java))
         }
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (toggle.onOptionsItemSelected(item)) {
