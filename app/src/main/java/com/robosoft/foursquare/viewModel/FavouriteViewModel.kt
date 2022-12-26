@@ -3,6 +3,7 @@ package com.robosoft.foursquare.viewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.network.ProjectApi
@@ -17,21 +18,43 @@ class FavouriteViewModel: ViewModel() {
 
     private var FavouriteLiveDataList: MutableLiveData<HotelResponse?> = MutableLiveData()
 
+    private var FavouriteSearchLiveDataList: MutableLiveData<HotelResponse?> = MutableLiveData()
+
     fun getFavouriteLiveDataObserver(): MutableLiveData<HotelResponse?> {
         return FavouriteLiveDataList
     }
 
-    fun getFavourite(accessToken: String,data: HotelBody) {
+    fun getSearchFavouriteLiveDataObserver(): MutableLiveData<HotelResponse?> {
+        return FavouriteSearchLiveDataList
+    }
+
+    fun getFavourite(accessToken: String, data: HotelBody) {
         retrofit.getFavourite(accessToken, data).enqueue(object : Callback<HotelResponse> {
             override fun onFailure(call: Call<HotelResponse>, t: Throwable) {
                 FavouriteLiveDataList.postValue(null)
-                Log.d("topPick response",t.toString())
+                Log.d("fav response",t.toString())
             }
             override fun onResponse(
                 call: Call<HotelResponse>,
                 response: Response<HotelResponse>
             ) {
                 FavouriteLiveDataList.postValue(response.body())
+                Log.d("getFav response", response.toString())
+            }
+        })
+    }
+
+    fun searchFromFavourite(accessToken: String,data: GetFavSearchBody) {
+        retrofit.searchFromFavourite(accessToken, data).enqueue(object : Callback<HotelResponse> {
+            override fun onFailure(call: Call<HotelResponse>, t: Throwable) {
+                FavouriteSearchLiveDataList.postValue(null)
+                Log.d("fav response",t.toString())
+            }
+            override fun onResponse(
+                call: Call<HotelResponse>,
+                response: Response<HotelResponse>
+            ) {
+                FavouriteSearchLiveDataList.postValue(response.body())
                 Log.d("getFav response", response.toString())
             }
         })

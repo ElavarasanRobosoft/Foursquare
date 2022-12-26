@@ -138,9 +138,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }
        homeBinding.toolbar.searchIbn.setOnClickListener {
-
+            startActivity(Intent(this,SearchActivity::class.java))
         }
         homeBinding.toolbar.filterIbn.setOnClickListener {
+            startActivity(Intent(this,SearchActivity::class.java))
         }
     }
 
