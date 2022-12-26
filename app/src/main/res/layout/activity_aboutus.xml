@@ -76,7 +76,7 @@
                     android:layout_marginBottom="80dp"
                     android:fontFamily="@font/avenir_book"
                     android:lineHeight="34dp"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry'sstandard dummy text ever since the1500s, when an unknown printer tooka galley of type and scrambled it tomake a type specimen book. It hasdervived not only five centuries, butalso the leap into electronictypesetting, remaining essentiallyunchanged. It was popularised in the1960s with the release of Letrasetsheets containing Lorem Ipsumpassages, and more recently withdesktop publishing software like AldusPageMaker including versions of lorem Ipsum orem Ipsum is simply dummy text othe printing typesetting industry.Lorem Ipsum has been the industrys"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer tooka galley of type and scrambled it tomake a type specimen book. It has dervived not only five centuries, but also the leap into electronic type setting, remaining essentially unchanged. It was popularised in the1960s with the release of Let raset sheets containing Lorem Ipsumpassages, and more recently withdesktop publishing software like AldusPageMaker including versions of lorem Ipsum orem Ipsum is simply dummy text othe printing typesetting industry.Lorem Ipsum has been the industrys"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"

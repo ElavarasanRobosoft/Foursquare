@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -14,10 +16,9 @@ import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.ActivityFavouriteBinding
+import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
-import com.robosoft.foursquare.viewModel.CoffeeViewModel
 import com.robosoft.foursquare.viewModel.FavouriteViewModel
-import com.robosoft.foursquare.viewModel.FeedbackViewModel
 
 class FavouriteActivity : AppCompatActivity() {
 
@@ -49,12 +50,31 @@ class FavouriteActivity : AppCompatActivity() {
             Toast.makeText(this,"Filter",Toast.LENGTH_SHORT).show()
         }
 
+        favouriteBinding.searchSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchViewModel()
+                val data = GetFavSearchBody(currentLat,currentLong,query!!)
+                searchFromFavourite(accessToken,data)
+                return false
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                searchViewModel()
+                val data = GetFavSearchBody(currentLat,currentLong,text!!)
+                searchFromFavourite(accessToken,data)
+                return false
+            }
+
+        })
+
         val data = HotelBody(currentLat,currentLong)
         viewModel.getFavouriteLiveDataObserver().observe(this, Observer {
             if (it != null) {
                 Log.d("data",data.toString())
                 Log.d("favourite response", it.toString())
                 Log.d("accessToken",accessToken)
+                favouriteBinding.favouritesRecyclerView.visibility = View.VISIBLE
                 favouriteBinding.favouritesRecyclerView.layoutManager =
                     LinearLayoutManager(this)
                 favouriteBinding.favouritesRecyclerView.adapter =
@@ -68,5 +88,25 @@ class FavouriteActivity : AppCompatActivity() {
             }
         })
         viewModel.getFavourite(accessToken, data)
+    }
+    fun searchViewModel(){
+        viewModel.getSearchFavouriteLiveDataObserver().observe(this, Observer {
+            if (it != null) {
+                favouriteBinding.searchFavouritesRecyclerView.visibility = View.VISIBLE
+                favouriteBinding.searchFavouritesRecyclerView.layoutManager =
+                    LinearLayoutManager(this)
+                favouriteBinding.favouritesRecyclerView.adapter =
+                    ViewModelRecyclerAdapter(this, it,lifecycleScope)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+    fun searchFromFavourite(accessToken: String, data: GetFavSearchBody) {
+        viewModel.searchFromFavourite(accessToken, data)
     }
 }
