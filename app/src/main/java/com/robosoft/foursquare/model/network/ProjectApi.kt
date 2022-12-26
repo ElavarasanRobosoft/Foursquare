@@ -3,6 +3,7 @@ package com.robosoft.foursquare.model.network
 import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackResponse
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
@@ -96,5 +97,9 @@ interface ProjectApi {
     @Headers("Content-Type: application/json")
     @POST("/getDetailsOfParticularImage")
     fun getDetailsOfParticularImage(@Body data: ParticularPhotoBody) : Call<ParticularImageResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/searchFromFavourite")
+    fun searchFromFavourite(@Header("authorization") access_token: String, @Body data: GetFavSearchBody) : Call<HotelResponse>
 
 }
