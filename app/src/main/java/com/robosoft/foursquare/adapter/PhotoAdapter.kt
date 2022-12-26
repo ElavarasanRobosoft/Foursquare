@@ -1,6 +1,7 @@
 package com.robosoft.foursquare.adapter
 
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,13 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.model.dataclass.photoReview.PhotoReviewResponse
+import com.robosoft.foursquare.view.fragment.home.NearYouFragment
 import com.robosoft.foursquare.view.fragment.individualhotel.IndividualPhotoFragment
 import com.squareup.picasso.Picasso
 
 class PhotoAdapter(
     private val activity: FragmentActivity?,
+    private val reviewImageList: MutableList<String>,
     private val data: PhotoReviewResponse,
     lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
@@ -31,17 +34,29 @@ class PhotoAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val image = data.data.reviews[position]
 
-        val imageUrl = image.reviewImage.urls[position]
+        val imageUrl = reviewImageList[position]
         holder.profileImg.let {
             val uri = Uri.parse(imageUrl)
             Picasso.with(activity).load(uri).into(it)
         }
 
         holder.itemView.setOnClickListener {
+
+            val image = reviewImageList[position]
+            val profileImg = data.data.reviews[position].userId.profileImage.public_id
+            val userName = data.data.reviews[position].userId.fullName
+            val date = data.data.reviews[position].createdOn
+
+            val bundle = Bundle()
+            bundle.putString("image",image)
+            bundle.putString("profileImg", profileImg)
+            bundle.putString("userName",userName)
+            bundle.putString("date",date)
+            val individualPhotoFragment = IndividualPhotoFragment()
+            individualPhotoFragment.arguments = bundle
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, IndividualPhotoFragment())
+                ?.replace(R.id.hotel_container, individualPhotoFragment)
                 ?.addToBackStack(null)
                 ?.commit()
         }
@@ -49,6 +64,6 @@ class PhotoAdapter(
     }
 
     override fun getItemCount(): Int {
-        return data.data.reviews.size
+        return reviewImageList.size
     }
 }

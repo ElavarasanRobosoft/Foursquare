@@ -42,25 +42,33 @@ class PhotoFragment : Fragment() {
         val data = GetReviewResponseBody(placeId.toString())
 
         photoBinding.addPhotoIbn.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, AddReviewFragment())?.addToBackStack(null)?.commit()
+//            activity?.supportFragmentManager?.beginTransaction()
+//                ?.replace(R.id.hotel_container, AddReviewFragment())?.addToBackStack(null)?.commit()
         }
 
         viewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
         viewModel.getPhotoLiveDataObserver().observe(viewLifecycleOwner, Observer {
-            if (it?.message == "images found") {
-                Log.d("review response", it.toString())
-                photoBinding.photoRecyclerView.layoutManager =
-                    GridLayoutManager(activity?.applicationContext, 3)
-                photoBinding.photoRecyclerView.adapter =
-                    PhotoAdapter(activity, it, lifecycleScope)
-            } else {
+            if (it == null) {
                 Log.d("place id", placeId.toString())
                 Toast.makeText(
                     activity?.applicationContext,
                     "Something went wrong",
                     Toast.LENGTH_SHORT
                 ).show()
+            } else {
+                Log.d("review response", it.toString())
+
+                val reviewImageList = mutableListOf<String>()
+                for(i in it.data.reviews){
+                    reviewImageList.addAll(i.reviewImage.urls)
+                }
+
+                Log.d("review images",reviewImageList.toString())
+
+                photoBinding.photoRecyclerView.layoutManager =
+                    GridLayoutManager(activity?.applicationContext, 3)
+                photoBinding.photoRecyclerView.adapter =
+                    PhotoAdapter(activity,reviewImageList,it, lifecycleScope)
             }
         })
         viewModel.getImagesByPlaceId(data)

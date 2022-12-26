@@ -20,19 +20,13 @@
         android:theme="@style/Theme.Foursquare"
         tools:targetApi="31">
         <activity
-            android:name=".FilterActivity"
+            android:name=".view.activity.FilterActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".view.activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity"
-            android:exported="false" />
-        <activity
-            android:name=".HotelContainerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchFilterContainerActivity"
+            android:name=".view.activity.HotelContainerActivity"
             android:exported="false" />
 
         <meta-data

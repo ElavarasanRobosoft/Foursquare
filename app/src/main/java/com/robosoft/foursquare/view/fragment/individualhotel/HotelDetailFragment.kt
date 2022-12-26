@@ -75,8 +75,9 @@ class HotelDetailFragment : Fragment(){
         }
 
         hotelDetailBinding.ratingIbn.setOnClickListener {
-            val builder = AlertDialog.Builder(requireActivity(),R.style.CustomDialog)
+            val builder = AlertDialog.Builder(requireActivity())
                 .create()
+
             val view = layoutInflater.inflate(R.layout.rating_alertbox, null)
             val closeButton = view.findViewById<ImageButton>(R.id.close_rating)
             val ratingText = view.findViewById<TextView>(R.id.overall_rating)
@@ -93,6 +94,7 @@ class HotelDetailFragment : Fragment(){
                 Toast.makeText(activity?.applicationContext, "submit", Toast.LENGTH_SHORT).show()
             }
             builder.setCanceledOnTouchOutside(false)
+            builder.window?.setBackgroundDrawableResource(R.color.transparent)
             builder.show()
         }
 

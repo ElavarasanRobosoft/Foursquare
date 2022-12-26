@@ -80,10 +80,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_pic"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:shapeAppearance="@style/roundedImageViewRounded"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
@@ -101,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/avenir_medium"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textColor="@color/white"
                     tools:text="Elavarasan"/>
 
@@ -111,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/avenir_book"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     android:textColor="@color/white"
                     tools:text="Added"/>
 

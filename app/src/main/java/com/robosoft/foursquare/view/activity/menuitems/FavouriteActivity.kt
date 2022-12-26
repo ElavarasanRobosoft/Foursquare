@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
+import com.robosoft.foursquare.adapter.FavouriteAdapter
 import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.ActivityFavouriteBinding
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
@@ -72,13 +73,13 @@ class FavouriteActivity : AppCompatActivity() {
         viewModel.getFavouriteLiveDataObserver().observe(this, Observer {
             if (it != null) {
                 Log.d("data",data.toString())
-                Log.d("favourite response", it.toString())
+                Log.d("favourite response", it.size.toString())
                 Log.d("accessToken",accessToken)
                 favouriteBinding.favouritesRecyclerView.visibility = View.VISIBLE
                 favouriteBinding.favouritesRecyclerView.layoutManager =
                     LinearLayoutManager(this)
                 favouriteBinding.favouritesRecyclerView.adapter =
-                    ViewModelRecyclerAdapter(this, it,lifecycleScope)
+                    FavouriteAdapter(this, it,lifecycleScope)
             } else {
                 Toast.makeText(
                     this,
@@ -89,14 +90,14 @@ class FavouriteActivity : AppCompatActivity() {
         })
         viewModel.getFavourite(accessToken, data)
     }
+
     fun searchViewModel(){
         viewModel.getSearchFavouriteLiveDataObserver().observe(this, Observer {
             if (it != null) {
-                favouriteBinding.searchFavouritesRecyclerView.visibility = View.VISIBLE
-                favouriteBinding.searchFavouritesRecyclerView.layoutManager =
+                favouriteBinding.favouritesRecyclerView.layoutManager =
                     LinearLayoutManager(this)
                 favouriteBinding.favouritesRecyclerView.adapter =
-                    ViewModelRecyclerAdapter(this, it,lifecycleScope)
+                    FavouriteAdapter(this, it,lifecycleScope)
             } else {
                 Toast.makeText(
                     this,

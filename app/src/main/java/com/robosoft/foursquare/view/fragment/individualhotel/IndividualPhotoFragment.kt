@@ -1,5 +1,6 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.databinding.FragmentIndividualPhotoBinding
 import com.robosoft.foursquare.viewModel.IndividualPhotoViewModel
+import com.squareup.picasso.Picasso
 
 
 class IndividualPhotoFragment : Fragment() {
@@ -25,9 +27,30 @@ class IndividualPhotoFragment : Fragment() {
 
         individualPhotoBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_individual_photo, container, false)
 
+
+        val bundle = arguments
+        val image = bundle?.getString("image")
+        val profileImg = bundle?.getString("profileImg")
+        val userName = bundle?.getString("userName")
+        val date = bundle?.getString("date")
+
+
         individualPhotoBinding.backIbn.setOnClickListener {
 
         }
+
+        val imageUrl = image
+        individualPhotoBinding.reviewImg.let {
+            val uri = Uri.parse(imageUrl)
+            Picasso.with(activity).load(uri).into(it)
+        }
+
+        val profileImageUrl = profileImg
+        individualPhotoBinding.profilePic.let {
+            val uri = Uri.parse(profileImageUrl)
+            Picasso.with(activity).load(uri).into(it)
+        }
+
         return individualPhotoBinding.root
     }
 
