@@ -1,5 +1,6 @@
 package com.robosoft.foursquare.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -13,8 +14,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
+import com.robosoft.foursquare.SharedPreferenceManager
+import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.dataclass.search.SearchPlaceResponseBody
+import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.IndividualHotelContainerActivity
 import com.squareup.picasso.Picasso
 
@@ -24,6 +28,8 @@ class SearchPlaceAdapter(
     lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<SearchPlaceAdapter.ViewHolder>() {
 
+    private val projectApi = ProjectService()
+    var favourite = false
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -89,9 +95,18 @@ class SearchPlaceAdapter(
         holder.address.text = hotelData.address
 
         holder.favourite.setOnClickListener {
-            holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
-            Toast.makeText(activity, "Added to favourite", Toast.LENGTH_SHORT).show()
+            if (!favourite){
+                holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
+                favourite(hotelData._id)
+                favourite = true
+            } else {
+                holder.favourite.setImageResource(R.drawable.favourite_icon_copy)
+                favourite(hotelData._id)
+                favourite = false
+            }
         }
+
+
         holder.itemView.setOnClickListener {
             val intent = Intent(activity, IndividualHotelContainerActivity::class.java)
             intent.putExtra("placeId", hotelData._id)
@@ -109,5 +124,21 @@ class SearchPlaceAdapter(
         return data.result.size
     }
 
+    fun favourite(placeId: String){
+        val sharedPreferences =
+            activity?.applicationContext?.getSharedPreferences(
+                "sharedPreference",
+                Context.MODE_PRIVATE
+            )
+        val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+        val data = AddFavouriteBody(placeId)
+        projectApi.addToFavourites(accessToken!!,data){
+            if (it == null){
+                Toast.makeText(activity?.applicationContext,"Something went wrong",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(activity?.applicationContext,it.message,Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }

@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.adapter.FavouriteAdapter
-import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.ActivityFavouriteBinding
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
@@ -75,7 +74,6 @@ class FavouriteActivity : AppCompatActivity() {
                 Log.d("data",data.toString())
                 Log.d("favourite response", it.size.toString())
                 Log.d("accessToken",accessToken)
-                favouriteBinding.favouritesRecyclerView.visibility = View.VISIBLE
                 favouriteBinding.favouritesRecyclerView.layoutManager =
                     LinearLayoutManager(this)
                 favouriteBinding.favouritesRecyclerView.adapter =

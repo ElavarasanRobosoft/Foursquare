@@ -21,6 +21,7 @@ class IndividualHotelContainerActivity : AppCompatActivity() {
         val placeName = intent.getStringExtra("placeName")
         val distance = intent.getStringExtra("distance")
         val rating = intent.getStringExtra("rating")
+        val favourite = intent.getStringExtra("rating")
 
         if (savedInstanceState == null) {
             val bundle = Bundle()

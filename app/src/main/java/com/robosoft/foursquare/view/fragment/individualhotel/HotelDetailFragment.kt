@@ -27,8 +27,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.robosoft.foursquare.R
+import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.databinding.FragmentHotelDetailBinding
+import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
+import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
+import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.viewModel.HotelDetailViewModel
 import com.squareup.picasso.Picasso
 
@@ -38,7 +42,9 @@ class HotelDetailFragment : Fragment(){
     private lateinit var hotelDetailBinding: FragmentHotelDetailBinding
     private lateinit var mMap: GoogleMap
     private lateinit var viewModel: HotelDetailViewModel
-    private lateinit var latLng: LatLng
+    private val projectApi = ProjectService()
+
+    private lateinit var particularPlace: getParticularPlaceDetailsResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,22 +58,33 @@ class HotelDetailFragment : Fragment(){
         val placeName = bundle?.getString("placeName")
         val distance = bundle?.getString("distance")
         val rating = bundle?.getString("rating")
+        val favourite = bundle?.getString("favourite")
 
-        Log.d("rating", rating.toString())
+        var fav = false
+        Log.d("favourite", favourite.toString())
 
         val placeBundle = Bundle()
         placeBundle.putString("placeId", placeId)
         placeBundle.putString("placeName", placeName)
 
-//        val mapFragment = childFragmentManager
-//            .findFragmentById(R.id.hotel_map_view) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
-
-
         viewModel = ViewModelProvider(this)[HotelDetailViewModel::class.java]
 
         hotelDetailBinding.backIbn.setOnClickListener {
             activity?.finish()
+        }
+
+        hotelDetailBinding.favIbn.setOnClickListener {
+            if (!fav){
+                hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_whit)
+                favourite(placeId!!)
+                fav = true
+            }
+            else {
+                hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_icon)
+                favourite(placeId!!)
+                fav = false
+            }
+
         }
 
         hotelDetailBinding.shareIbn.setOnClickListener {
@@ -111,9 +128,6 @@ class HotelDetailFragment : Fragment(){
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.hotel_container, review)?.addToBackStack(null)?.commit()
         }
-        hotelDetailBinding.favIbn.setOnClickListener {
-            Toast.makeText(activity?.applicationContext, "Favourite", Toast.LENGTH_SHORT).show()
-        }
 
         val data = getParticularPlaceDetailsBody(placeId!!, placeName!!)
 
@@ -126,6 +140,9 @@ class HotelDetailFragment : Fragment(){
                 ).show()
             } else {
                 Log.d("response", it.toString())
+
+                particularPlace = it
+
                 val imageUrl = it.placeImages.url
                 hotelDetailBinding.backgroundImg.let { it ->
                     val uri = Uri.parse(imageUrl)
@@ -180,19 +197,29 @@ class HotelDetailFragment : Fragment(){
                     }
                 }
 
-//                val hotelLatLong = LatLng(it.location.coordinates[0], it.location.coordinates[1])
-//                getLatLong(hotelLatLong)
-
                 hotelDetailBinding.hotelName.text = it.placeName
                 hotelDetailBinding.hotelDesc.text = it.keywords
                 hotelDetailBinding.descTv.text = it.overview
                 hotelDetailBinding.hotelAddressTv.text = it.address
                 hotelDetailBinding.hotelContactTv.text = it.phoneNumber
                 hotelDetailBinding.hotelDistanceTv.text = "Drive : $distance Km"
+
+                val mapFragment = childFragmentManager
+                    .findFragmentById(R.id.hotel_map_view) as SupportMapFragment
+                mapFragment.getMapAsync{
+                    mMap = it
+                    val placeLatLong = LatLng(particularPlace.location.coordinates[1],particularPlace.location.coordinates[0])
+
+                    mMap?.apply {
+                        addMarker(MarkerOptions().position(placeLatLong).title(particularPlace.placeName))
+                        moveCamera(CameraUpdateFactory.newLatLngZoom(placeLatLong,12f))
+                    }
+                }
             }
 
         })
         viewModel.getParticularPlaceDetails(data)
+
 
         hotelDetailBinding.addReview.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -201,16 +228,21 @@ class HotelDetailFragment : Fragment(){
         return hotelDetailBinding.root
     }
 
-//    private fun getLatLong(hotelLatLong: LatLng): LatLng {
-//        return hotelLatLong
-//    }
+    fun favourite(placeId: String){
+        val sharedPreferences =
+            activity?.applicationContext?.getSharedPreferences(
+                "sharedPreference",
+                Context.MODE_PRIVATE
+            )
+        val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+        val data = AddFavouriteBody(placeId)
+        projectApi.addToFavourites(accessToken!!,data){
+            if (it == null){
+                Toast.makeText(activity?.applicationContext,"Something went wrong", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(activity?.applicationContext,it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
-//    override fun onMapReady(googleMap: GoogleMap?) {
-//        if (googleMap != null) {
-//            mMap = googleMap
-//
-//            mMap.addMarker(MarkerOptions().position(latLng))
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-//        }
-//    }
 }

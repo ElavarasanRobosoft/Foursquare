@@ -16,16 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
+import com.robosoft.foursquare.model.dataclass.filter.FilterResponse
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.IndividualHotelContainerActivity
 import com.squareup.picasso.Picasso
 
-class ViewModelRecyclerAdapter(
-    private val activity: FragmentActivity?,
-    private val data: HotelResponse,
-    lifecycleScope: LifecycleCoroutineScope
-) : RecyclerView.Adapter<ViewModelRecyclerAdapter.ViewHolder>() {
+class FilterAdapter(
+private val activity: FragmentActivity?,
+private val data: FilterResponse,
+lifecycleScope: LifecycleCoroutineScope
+) : RecyclerView.Adapter<FilterAdapter.ViewHolder>() {
 
     private val projectApi = ProjectService()
     var favourite = false
@@ -134,9 +135,9 @@ class ViewModelRecyclerAdapter(
         val data = AddFavouriteBody(placeId)
         projectApi.addToFavourites(accessToken!!,data){
             if (it == null){
-               Toast.makeText(activity?.applicationContext,"Something went wrong",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity?.applicationContext,"Something went wrong", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(activity?.applicationContext,it.message,Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity?.applicationContext,it.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -14,10 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.adapter.ReviewAdapter
-import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.FragmentReviewBinding
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
-import com.robosoft.foursquare.viewModel.LunchViewModel
 import com.robosoft.foursquare.viewModel.ReviewViewModel
 
 
@@ -43,9 +41,6 @@ class ReviewFragment : Fragment() {
         reviewBinding.hotelName.text = placeName
         val data = GetReviewResponseBody(placeId.toString())
 
-        reviewBinding.addReviewIbn.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.hotel_container,AddReviewFragment())?.commit()
-        }
 
         viewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
         viewModel.getReviewLiveDataObserver().observe(viewLifecycleOwner, Observer {

@@ -5,11 +5,8 @@ import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
 import com.robosoft.foursquare.model.dataclass.NameResponse
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
-import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
-import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
-import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
-import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -69,6 +66,7 @@ class ProjectService {
             }
         })
     }
+
     fun verifyOtp(data: VerifyOtpBody, onResult: (ResponseMessage?) -> Unit) {
         retrofit.verifyOtp(data).enqueue(object : Callback<ResponseMessage> {
             override fun onResponse(
@@ -84,6 +82,7 @@ class ProjectService {
             }
         })
     }
+
     fun resendOtp(data: ForgetPasswordBody, onResult: (ResponseMessage?) -> Unit) {
         retrofit.resendOtp(data).enqueue(object : Callback<ResponseMessage> {
             override fun onResponse(
@@ -99,6 +98,7 @@ class ProjectService {
             }
         })
     }
+
     fun changePassword(data: ChangePasswordBody, onResult: (ResponseMessage?) -> Unit) {
         retrofit.changePassword(data).enqueue(object : Callback<ResponseMessage> {
             override fun onResponse(
@@ -130,6 +130,46 @@ class ProjectService {
             }
         })
     }
+
+    fun addToFavourites(
+        access_token: String,
+        data: AddFavouriteBody,
+        onResult: (ResponseMessage?) -> Unit
+    ) {
+        retrofit.addToFavourites(access_token, data).enqueue(object : Callback<ResponseMessage> {
+            override fun onResponse(
+                call: Call<ResponseMessage>,
+                response: Response<ResponseMessage>
+            ) {
+                onResult(response.body())
+            }
+
+            override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
+
+    fun cancelFromFavourites(
+        access_token: String,
+        data: AddFavouriteBody,
+        onResult: (ResponseMessage?) -> Unit
+    ) {
+        retrofit.cancelFromFavourites(access_token, data)
+            .enqueue(object : Callback<ResponseMessage> {
+                override fun onResponse(
+                    call: Call<ResponseMessage>,
+                    response: Response<ResponseMessage>
+                ) {
+                    onResult(response.body())
+                }
+
+                override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
+                    onResult(null)
+                }
+            })
+    }
+
 
     fun getName(access_token: String, onResult: (NameResponse?) -> Unit) {
 
