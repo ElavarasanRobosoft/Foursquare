@@ -12,88 +12,267 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/action_bar_favourite"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
-            android:background="@color/violet"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <ImageButton
-                android:id="@+id/back_ibn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:minWidth="50dp"
-                android:minHeight="50dp"
-                android:src="@drawable/back_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SearchView
-                android:id="@+id/search"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/action_bar_filter"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="55dp"
-                android:queryHint="Search"
-                android:layout_toEndOf="@+id/back_ibn"
-                android:background="@drawable/custom_search_bg"
-                android:drawableStart="@drawable/search_icon"
-                android:iconifiedByDefault="false"
-                android:drawableTint="@color/grey"
-                android:drawablePadding="10dp"
-                android:hint="@string/search"
-                app:layout_constraintEnd_toStartOf="@+id/done_tv"
-                app:layout_constraintStart_toEndOf="@+id/back_ibn"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <SearchView
-                android:id="@+id/near_me"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginEnd="55dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="12dp"
-                android:queryHint="Near Me"
-                android:iconifiedByDefault="false"
-                android:background="@drawable/custom_search_bg"
-                android:drawableStart="@drawable/near_me_xhdpi"
-                android:drawableTint="@color/grey"
-                android:drawablePadding="10dp"
-                android:hint="@string/near_me"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="112dp"
+                android:background="@color/violet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/done_tv"
-                android:layout_width="wrap_content"
+                <ImageButton
+                    android:id="@+id/back_ibn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:minWidth="50dp"
+                    android:minHeight="50dp"
+                    android:src="@drawable/back_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SearchView
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_toEndOf="@+id/back_ibn"
+                    android:background="@drawable/custom_search_bg"
+                    android:drawableStart="@drawable/search_icon"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/grey"
+                    android:hint="@string/search"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search"
+                    app:layout_constraintEnd_toStartOf="@+id/done_tv"
+                    app:layout_constraintStart_toEndOf="@+id/back_ibn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <SearchView
+                    android:id="@+id/near_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/custom_search_bg"
+                    android:drawableStart="@drawable/near_me_xhdpi"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/grey"
+                    android:hint="@string/near_me"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Near Me"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/search" />
+
+                <TextView
+                    android:id="@+id/done_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/back_ibn"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/avenir_medium"
+                    android:gravity="center"
+                    android:minHeight="50dp"
+                    android:text="@string/done"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <ScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/back_ibn"
-                android:ellipsize="end"
-                android:fontFamily="@font/avenir_medium"
-                android:gravity="center"
-                android:text="@string/done"
-                android:minHeight="50dp"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:layout_marginEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/action_bar_filter">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/place_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:fontFamily="@font/avenir_medium"
+                            android:paddingStart="24dp"
+                            android:paddingTop="10dp"
+                            android:text="@string/sort_by"
+                            android:textColor="#858585"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/popular"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/popular" />
+
+                            <ImageView
+                                android:id="@+id/distance"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/distance" />
+
+                            <ImageView
+                                android:id="@+id/rating"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/rating" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/filter_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:fontFamily="@font/avenir_medium"
+                            android:paddingStart="24dp"
+                            android:paddingTop="10dp"
+                            android:text="@string/filter_by"
+                            android:textColor="#858585"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/radius_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenir_medium"
+                            android:paddingStart="24dp"
+                            android:paddingTop="10dp"
+                            android:text="@string/set_radius"
+                            android:textColor="#858585"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/radius_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:fontFamily="@font/avenir_book"
+                            android:textColor="#000000"
+                            android:textSize="22sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/rupee_1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/ruppe_btn1" />
+
+                            <ImageView
+                                android:id="@+id/rupee_2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/ruppe_btn2" />
+
+                            <ImageView
+                                android:id="@+id/rupee_3"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/ruppe_btn3" />
+
+                            <ImageView
+                                android:id="@+id/rupee_4"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/ruppe_btn3" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/feature_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:fontFamily="@font/avenir_medium"
+                            android:paddingStart="24dp"
+                            android:paddingTop="10dp"
+                            android:text="Features"
+                            android:textColor="#858585"
+                            android:textSize="20sp" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/credit_card"
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/avenir_book"
+                                android:paddingVertical="10dp"
+                                android:paddingStart="24dp"
+                                android:text="@string/accepts_credit_cards"
+                                android:textColor="#000000"
+                                android:textSize="22sp" />
+
+                            <ImageView
+                                android:id="@+id/card_select"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginEnd="24dp"
+                                android:minWidth="40dp"
+                                android:minHeight="40dp"
+                                android:src="@drawable/filter_unselected" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

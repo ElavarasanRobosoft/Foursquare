@@ -47,4 +47,8 @@
     <string name="near_by_places">Near by places</string>
     <string name="map_view">Map View</string>
     <string name="list_view">List View</string>
+    <string name="sort_by">Sort by</string>
+    <string name="filter_by">Filter by</string>
+    <string name="set_radius">Set radius</string>
+    <string name="accepts_credit_cards">Accepts credit cards</string>
 </resources>
