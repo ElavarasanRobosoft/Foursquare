@@ -4,17 +4,17 @@ import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
 import com.robosoft.foursquare.model.dataclass.NameResponse
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackResponse
+import com.robosoft.foursquare.model.dataclass.filter.FilterResponse
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
 import com.robosoft.foursquare.model.dataclass.nearbyplace.GetNearByCity
-//import com.robosoft.foursquare.model.dataclass.photoReview.ParticularImageResponse
-//import com.robosoft.foursquare.model.dataclass.photoReview.ParticularPhotoBody
 import com.robosoft.foursquare.model.dataclass.photoReview.PhotoReviewResponse
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponse
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
@@ -25,7 +25,6 @@ import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
 import com.robosoft.foursquare.model.dataclass.signup.SignUpResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ProjectApi {
@@ -114,4 +113,18 @@ interface ProjectApi {
     @POST("/getName")
     fun getName(@Header("authorization") access_token: String) : Call<NameResponse>
 
+    @Headers("Content-Type: application/json")
+    @POST("/searchByFilter")
+    fun searchByFilter(@Body data: MutableMap<String, Any>) : Call<FilterResponse>
+
+    @Headers("Content-Type: application/json")
+    @PUT("/addToFavourites")
+    fun addToFavourites(@Header("authorization") access_token: String, @Body data: AddFavouriteBody) : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @PUT("/cancelFromFavourites")
+    fun cancelFromFavourites(@Header("authorization") access_token: String, @Body data: AddFavouriteBody) : Call<ResponseMessage>
+
 }
+
+

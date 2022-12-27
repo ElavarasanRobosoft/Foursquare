@@ -1,5 +1,6 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,9 +14,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.robosoft.foursquare.R
+import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.adapter.PhotoAdapter
 import com.robosoft.foursquare.databinding.FragmentPhotoBinding
+import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
+import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.viewModel.PhotoViewModel
 
 
@@ -23,6 +27,7 @@ class PhotoFragment : Fragment() {
 
     private lateinit var photoBinding: FragmentPhotoBinding
     private lateinit var viewModel: PhotoViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,4 +81,6 @@ class PhotoFragment : Fragment() {
 
         return photoBinding.root
     }
+
+
 }

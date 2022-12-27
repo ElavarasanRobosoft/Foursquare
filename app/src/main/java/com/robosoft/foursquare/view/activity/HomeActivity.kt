@@ -31,6 +31,7 @@ import com.robosoft.foursquare.view.activity.menuitems.AboutusActivity
 import com.robosoft.foursquare.view.activity.menuitems.FavouriteActivity
 import com.robosoft.foursquare.view.activity.menuitems.FeedbackActivity
 import kotlinx.android.synthetic.main.custom_toolbar_home.view.*
+import kotlinx.android.synthetic.main.fragment_otp.view.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -42,9 +43,9 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var projectService: ProjectService
 
     private lateinit var latLng: LatLong
+    private val projectApi = ProjectService()
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -67,14 +68,6 @@ class HomeActivity : AppCompatActivity() {
 
         toggle.syncState()
 
-        projectService.getName(accessToken) {
-            if (it == null){
-                Log.d("name","Login")
-            }
-            else{
-                Log.d("name",it.fullName)
-            }
-        }
 
         homeBinding.toolbar.menu.setOnClickListener {
             drawerLayout.open()
@@ -84,6 +77,17 @@ class HomeActivity : AppCompatActivity() {
 
         val navigationView: NavigationView = homeBinding.navigationView
 
+        navigationView.getHeaderView(0).setOnClickListener {
+            Toast.makeText(this,"upload Image",Toast.LENGTH_SHORT).show()
+        }
+
+//        projectApi.getName(accessToken){
+//            if (it == null){
+//
+//            } else {
+//
+//            }
+//        }
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -173,4 +177,5 @@ class HomeActivity : AppCompatActivity() {
             true
         } else super.onOptionsItemSelected(item)
     }
+
 }

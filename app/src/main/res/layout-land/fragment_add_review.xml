@@ -7,40 +7,47 @@
     tools:context=".view.fragment.individualhotel.AddReviewFragment">
 
 
-        <LinearLayout
-            android:id="@+id/action_bar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/violet"
-            app:layout_constraintEnd_toEndOf="parent"
+    <LinearLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/violet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/review_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:src="@drawable/back_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/review_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:minWidth="50dp"
-                android:minHeight="50dp"
-                android:src="@drawable/back_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/hotel_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/avenir_book"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            tools:text="Attil" />
 
-            <TextView
-                android:id="@+id/hotel_name"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/avenir_book"
-                android:gravity="center"
-                android:lines="1"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                tools:text="Attil" />
+    </LinearLayout>
 
-        </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar">
 
     <LinearLayout
         android:id="@+id/review_layout"
@@ -72,7 +79,7 @@
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
@@ -95,15 +102,17 @@
 
             <ImageView
                 android:id="@+id/add_img"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/aad_photo_icon_big_3x"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/add_photo_tv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+    </ScrollView>
+
 
     <TextView
         android:id="@+id/add_review"
@@ -111,7 +120,7 @@
         android:layout_height="50dp"
         android:background="#351347"
         android:gravity="center"
-        android:text="@string/submit"
+        android:text="Submit"
         android:textAppearance="@style/btnText"
         android:textColor="#F7F7F7"
         app:layout_constraintBottom_toBottomOf="parent"

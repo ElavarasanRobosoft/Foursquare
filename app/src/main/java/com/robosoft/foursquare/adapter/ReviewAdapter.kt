@@ -35,13 +35,13 @@ class ReviewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reviewData = data.data.reviews[position]
 
-        val imageUrl = reviewData.userId.profileImage.public_id
+        val imageUrl = reviewData?.userId?.profileImage?.public_id
         holder.profileImg.let {
             val uri = Uri.parse(imageUrl)
             Picasso.with(activity).load(uri).into(it)
         }
         holder.userName.text = reviewData.userId.fullName
-        holder.date.text = reviewData.createdOn
+        holder.date.text = reviewData.createdOn.removeRange(9,(reviewData.createdOn).length)
         holder.desc.text = reviewData.review
     }
 

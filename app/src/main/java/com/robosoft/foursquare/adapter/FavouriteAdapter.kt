@@ -1,5 +1,6 @@
 package com.robosoft.foursquare.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -9,20 +10,25 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
+import com.robosoft.foursquare.SharedPreferenceManager
+import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
+import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.IndividualHotelContainerActivity
 import com.squareup.picasso.Picasso
 
-class FavouriteAdapter (
+class FavouriteAdapter(
     private val activity: FragmentActivity?,
     private val data: HotelResponse,
     lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<FavouriteAdapter.ViewHolder>() {
 
+    private val projectApi = ProjectService()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -88,8 +94,11 @@ class FavouriteAdapter (
         holder.address.text = hotelData.address
 
         holder.favourite.setOnClickListener {
-            Toast.makeText(activity, "Removed from favourite", Toast.LENGTH_SHORT).show()
+            data.removeAt(position)
+            notifyItemRemoved(position)
+            favourite(hotelData._id)
         }
+
         holder.itemView.setOnClickListener {
             val intent = Intent(activity, IndividualHotelContainerActivity::class.java)
             intent.putExtra("placeId", hotelData._id)
@@ -106,5 +115,26 @@ class FavouriteAdapter (
         return data.size
     }
 
+    fun favourite(placeId: String) {
+        val sharedPreferences =
+            activity?.applicationContext?.getSharedPreferences(
+                "sharedPreference",
+                Context.MODE_PRIVATE
+            )
+        val accessToken =
+            activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+        val data = AddFavouriteBody(placeId)
+        projectApi.cancelFromFavourites(accessToken!!, data) {
+            if (it == null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(activity?.applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }
