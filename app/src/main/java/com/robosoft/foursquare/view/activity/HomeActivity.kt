@@ -22,12 +22,15 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.robosoft.foursquare.R
+import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.adapter.ViewPagerAdapter
 import com.robosoft.foursquare.databinding.ActivityHomeBinding
 import com.robosoft.foursquare.model.dataclass.LatLong
+import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.menuitems.AboutusActivity
 import com.robosoft.foursquare.view.activity.menuitems.FavouriteActivity
 import com.robosoft.foursquare.view.activity.menuitems.FeedbackActivity
+import kotlinx.android.synthetic.main.custom_toolbar_home.view.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -39,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var projectService: ProjectService
 
     private lateinit var latLng: LatLong
 
@@ -50,6 +54,12 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         homeBinding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(homeBinding.root)
+        val sharedPreferences =
+            this.getSharedPreferences(
+                "sharedPreference",
+                Context.MODE_PRIVATE
+            )
+        val accessToken = SharedPreferenceManager(this).getAccessToken()
 
         drawerLayout = homeBinding.drawerLayout
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
@@ -57,11 +67,23 @@ class HomeActivity : AppCompatActivity() {
 
         toggle.syncState()
 
+        projectService.getName(accessToken) {
+            if (it == null){
+                Log.d("name","Login")
+            }
+            else{
+                Log.d("name",it.fullName)
+            }
+        }
+
         homeBinding.toolbar.menu.setOnClickListener {
             drawerLayout.open()
         }
 
+
+
         val navigationView: NavigationView = homeBinding.navigationView
+
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {

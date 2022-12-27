@@ -1,6 +1,7 @@
 package com.robosoft.foursquare.model.network
 
 import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
+import com.robosoft.foursquare.model.dataclass.NameResponse
 import com.robosoft.foursquare.model.dataclass.ResponseMessage
 import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
@@ -108,5 +109,9 @@ interface ProjectApi {
     @Headers("Content-Type: application/json")
     @POST("/searchPlace")
     fun getSearchPlace(@Body data: SearchPlaceBody) : Call<SearchPlaceResponseBody>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getName")
+    fun getName(@Header("authorization") access_token: String) : Call<NameResponse>
 
 }
