@@ -5,6 +5,7 @@ import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackResponse
+import com.robosoft.foursquare.model.dataclass.filter.FilterBody
 import com.robosoft.foursquare.model.dataclass.filter.FilterResponse
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
@@ -21,6 +22,7 @@ import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
 import com.robosoft.foursquare.model.dataclass.signup.SignUpResponse
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -112,7 +114,7 @@ interface ProjectApi {
 
     @Headers("Content-Type: application/json")
     @POST("/searchByFilter")
-    fun searchByFilter(@Body data: MutableMap<String, Any>) : Call<FilterResponse>
+    fun searchByFilter(@Body data: FilterBody) : Call<FilterResponse>
 
     @Headers("Content-Type: application/json")
     @PUT("/addToFavourites")
@@ -125,6 +127,17 @@ interface ProjectApi {
     @Headers("Content-Type: application/json")
     @PUT("/addRating")
     fun addRating(@Header("authorization") access_token: String, @Body data: RatingBody) : Call<RatingResponse>
+
+    @Headers("Content-Type: application/json")
+    @PUT("/addReviews")
+    fun addReviews(
+        @Header("authorization") access_token: String,
+        @Part("placeId") placeId: RequestBody,
+        @Part("review") review: RequestBody) : Call<ResponseMessage>
+
+    @Headers("Content-Type: application/json")
+    @PUT("/logout")
+    fun logout(@Header("authorization") access_token: String) : Call<LogoutResponse>
 }
 
 

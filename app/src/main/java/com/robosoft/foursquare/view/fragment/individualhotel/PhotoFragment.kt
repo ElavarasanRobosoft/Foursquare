@@ -64,6 +64,7 @@ class PhotoFragment : Fragment() {
                 Log.d("review response", it.toString())
 
                 val reviewImageList = mutableListOf<String>()
+
                 for(i in it.data.reviews){
                     reviewImageList.addAll(i.reviewImage.urls)
                 }

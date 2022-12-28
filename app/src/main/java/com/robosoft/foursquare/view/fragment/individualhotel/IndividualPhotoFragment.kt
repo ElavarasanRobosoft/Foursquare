@@ -45,7 +45,6 @@ class IndividualPhotoFragment : Fragment() {
 
         }
 
-
         val imageUrl = image
         individualPhotoBinding.reviewImg.let {
             val uri = Uri.parse(imageUrl)

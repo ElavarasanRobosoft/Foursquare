@@ -1,30 +1,25 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
-import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
@@ -38,7 +33,7 @@ import com.robosoft.foursquare.viewModel.HotelDetailViewModel
 import com.squareup.picasso.Picasso
 
 
-class HotelDetailFragment : Fragment(){
+class HotelDetailFragment : Fragment() {
 
     private lateinit var hotelDetailBinding: FragmentHotelDetailBinding
     private lateinit var mMap: GoogleMap
@@ -68,70 +63,14 @@ class HotelDetailFragment : Fragment(){
         placeBundle.putString("placeId", placeId)
         placeBundle.putString("placeName", placeName)
 
+        var starOne = false
+        var starTwo = false
+        var startThree = false
+        var starFour = false
+        var starFive = false
+
         viewModel = ViewModelProvider(this)[HotelDetailViewModel::class.java]
 
-        hotelDetailBinding.backIbn.setOnClickListener {
-            activity?.finish()
-        }
-
-        hotelDetailBinding.favIbn.setOnClickListener {
-            if (!fav){
-                hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_whit)
-                favourite(placeId!!)
-                fav = true
-            }
-            else {
-                hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_icon)
-                favourite(placeId!!)
-                fav = false
-            }
-
-        }
-
-        hotelDetailBinding.shareIbn.setOnClickListener {
-            Toast.makeText(activity?.applicationContext, "share", Toast.LENGTH_SHORT).show()
-        }
-
-        hotelDetailBinding.ratingIbn.setOnClickListener {
-            val builder = AlertDialog.Builder(requireActivity())
-                .create()
-
-            val view = layoutInflater.inflate(R.layout.rating_alertbox, null)
-            val closeButton = view.findViewById<ImageButton>(R.id.close_rating)
-            val ratingText = view.findViewById<TextView>(R.id.overall_rating)
-//            val ratingValue = view.findViewById<Ra>()
-            val submitRating = view.findViewById<TextView>(R.id.submit_rating)
-            builder.setView(view)
-
-            ratingText.text = rating
-
-            closeButton.setOnClickListener {
-                builder.dismiss()
-            }
-            submitRating.setOnClickListener {
-                Toast.makeText(activity?.applicationContext, "submit", Toast.LENGTH_SHORT).show()
-                //star function
-            }
-            builder.setCanceledOnTouchOutside(false)
-            builder.window?.setBackgroundDrawableResource(R.color.transparent)
-            builder.show()
-        }
-
-        hotelDetailBinding.photoIbn.setOnClickListener {
-            val photo = PhotoFragment()
-            photo.arguments = placeBundle
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, photo)?.addToBackStack(null)?.commit()
-        }
-
-        hotelDetailBinding.reviewIbn.setOnClickListener {
-            val review = ReviewFragment()
-            review.arguments = placeBundle
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, review)?.addToBackStack(null)?.commit()
-        }
-
-        val data = getParticularPlaceDetailsBody(placeId!!, placeName!!)
         val sharedPreferences =
             activity?.applicationContext?.getSharedPreferences(
                 "sharedPreference",
@@ -139,6 +78,174 @@ class HotelDetailFragment : Fragment(){
             )
         val accessToken = activity?.applicationContext?.let {
             SharedPreferenceManager(it).getAccessToken()
+            val currentLat = sharedPreferences?.getString("currentLat", "")
+            val currentLong = sharedPreferences?.getString("currentLong", "")
+            val login = sharedPreferences?.getString("Login", "")!!
+
+            hotelDetailBinding.backIbn.setOnClickListener {
+                activity?.finish()
+            }
+
+            hotelDetailBinding.favIbn.setOnClickListener {
+                if (login == "Login"){
+                    if (!fav) {
+                        hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_whit)
+                        favourite(placeId!!)
+                        fav = true
+                    } else {
+                        hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_icon)
+                        favourite(placeId!!)
+                        fav = false
+                    }
+                }
+                else {
+                    Toast.makeText(activity,"Login to add favourite",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            hotelDetailBinding.shareIbn.setOnClickListener {
+                Toast.makeText(activity?.applicationContext, "share", Toast.LENGTH_SHORT).show()
+            }
+
+            hotelDetailBinding.ratingIbn.setOnClickListener {
+
+                var ratingValue = ""
+
+                val builder = AlertDialog.Builder(requireActivity())
+                    .create()
+
+                val view = layoutInflater.inflate(R.layout.rating_alertbox, null)
+                val closeButton = view.findViewById<ImageButton>(R.id.close_rating)
+                val ratingText = view.findViewById<TextView>(R.id.overall_rating)
+                val r1 = view.findViewById<ImageView>(R.id.star_one)
+                val r2 = view.findViewById<ImageView>(R.id.star_two)
+                val r3 = view.findViewById<ImageView>(R.id.star_three)
+                val r4 = view.findViewById<ImageView>(R.id.star_four)
+                val r5 = view.findViewById<ImageView>(R.id.star_five)
+
+                val submitRating = view.findViewById<TextView>(R.id.submit_rating)
+                builder.setView(view)
+
+                ratingText.text = rating
+
+                closeButton.setOnClickListener {
+                    builder.dismiss()
+                }
+
+
+                r1.setOnClickListener {
+                    if (!starOne) {
+                        r1.setImageResource(R.drawable.rating_icon_selected_2x)
+                        ratingValue = "1"
+                        starOne = true
+                        starTwo = true
+                        startThree = true
+                        starFour = true
+                        starFive = true
+                    }
+                }
+
+
+                r2.setOnClickListener {
+                    if (!starTwo) {
+                        r1.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r2.setImageResource(R.drawable.rating_icon_selected_2x)
+                        ratingValue = "2"
+                        starOne = true
+                        starTwo = true
+                        startThree = true
+                        starFour = true
+                        starFive = true
+                    }
+                }
+
+
+                r3.setOnClickListener {
+                    if (!startThree) {
+                        r1.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r2.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r3.setImageResource(R.drawable.rating_icon_selected_2x)
+                        ratingValue = "3"
+                        starOne = true
+                        starTwo = true
+                        startThree = true
+                        starFour = true
+                        starFive = true
+                    }
+                }
+
+
+                r4.setOnClickListener {
+                    if (!starFour) {
+                        r1.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r2.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r3.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r4.setImageResource(R.drawable.rating_icon_selected_2x)
+                        ratingValue = "4"
+                        starOne = true
+                        starTwo = true
+                        startThree = true
+                        starFour = true
+                        starFive = true
+                    }
+                }
+
+
+
+                r5.setOnClickListener {
+                    if (!starFive) {
+                        r1.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r2.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r3.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r4.setImageResource(R.drawable.rating_icon_selected_2x)
+                        r5.setImageResource(R.drawable.rating_icon_selected_2x)
+                        ratingValue = "5"
+                        starOne = true
+                        starTwo = true
+                        startThree = true
+                        starFour = true
+                        starFive = true
+                    }
+                }
+                submitRating.setOnClickListener {
+                    val sharedPreferences =
+                        activity?.applicationContext?.getSharedPreferences(
+                            "sharedPreference",
+                            Context.MODE_PRIVATE
+                        )
+                    val accessToken = SharedPreferenceManager(activity?.applicationContext!!).getAccessToken()
+                    val login = sharedPreferences?.getString("Login", "")!!
+                    val data = RatingBody(placeId!!,ratingValue)
+
+                    if (login == "Login"){
+                        addRating()
+                        getRating(accessToken,data)
+                    }
+                    else {
+                        Toast.makeText(activity,"Login to add rating",Toast.LENGTH_SHORT).show()
+                    }
+                }
+                builder.setCanceledOnTouchOutside(false)
+                builder.window?.setBackgroundDrawableResource(R.color.transparent)
+                builder.show()
+            }
+
+            hotelDetailBinding.photoIbn.setOnClickListener {
+                val photo = PhotoFragment()
+                photo.arguments = placeBundle
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.hotel_container, photo)?.addToBackStack(null)?.commit()
+            }
+
+            hotelDetailBinding.reviewIbn.setOnClickListener {
+                val review = ReviewFragment()
+                review.arguments = placeBundle
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.hotel_container, review)?.addToBackStack(null)?.commit()
+            }
+
+            val data = getParticularPlaceDetailsBody(currentLat!!,currentLong!!,placeId!!)
+
 
             viewModel.getHotelDetailDataObserver().observe(viewLifecycleOwner, Observer {
                 if (it == null) {
@@ -152,13 +259,13 @@ class HotelDetailFragment : Fragment(){
 
                     particularPlace = it
 
-                    val imageUrl = it.placeImages.url
+                    val imageUrl = it[0].placeImages.url
                     hotelDetailBinding.backgroundImg.let { it ->
                         val uri = Uri.parse(imageUrl)
                         Picasso.with(activity).load(uri).into(it)
                     }
 
-                    when (it.totalrating.toInt() / 2) {
+                    when (it[0].totalrating / 2) {
                         1 -> {
                             hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
                             hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
@@ -206,11 +313,11 @@ class HotelDetailFragment : Fragment(){
                         }
                     }
 
-                    hotelDetailBinding.hotelName.text = it.placeName
-                    hotelDetailBinding.hotelDesc.text = it.keywords
-                    hotelDetailBinding.descTv.text = it.overview
-                    hotelDetailBinding.hotelAddressTv.text = it.address
-                    hotelDetailBinding.hotelContactTv.text = it.phoneNumber
+                    hotelDetailBinding.hotelName.text = it[0].placeName
+                    hotelDetailBinding.hotelDesc.text = it[0].keywords
+                    hotelDetailBinding.descTv.text = it[0].overview
+                    hotelDetailBinding.hotelAddressTv.text = it[0].address
+                    hotelDetailBinding.hotelContactTv.text = it[0].phoneNumber
                     hotelDetailBinding.hotelDistanceTv.text = "Drive : $distance Km"
 
                     val mapFragment = childFragmentManager
@@ -218,14 +325,14 @@ class HotelDetailFragment : Fragment(){
                     mapFragment.getMapAsync {
                         mMap = it
                         val placeLatLong = LatLng(
-                            particularPlace.location.coordinates[1],
-                            particularPlace.location.coordinates[0]
+                            particularPlace[0].location.coordinates[1],
+                            particularPlace[0].location.coordinates[0]
                         )
 
                         mMap?.apply {
                             addMarker(
                                 MarkerOptions().position(placeLatLong)
-                                    .title(particularPlace.placeName)
+                                    .title(particularPlace[0].placeName)
                             )
                             moveCamera(CameraUpdateFactory.newLatLngZoom(placeLatLong, 12f))
                         }
@@ -237,43 +344,59 @@ class HotelDetailFragment : Fragment(){
 
 
             hotelDetailBinding.addReview.setOnClickListener {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.hotel_container, AddReviewFragment())?.addToBackStack(null)
-                    ?.commit()
+                if (login == "Login"){
+                    val addReview = AddReviewFragment()
+                    addReview.arguments = placeBundle
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.hotel_container, addReview)?.addToBackStack(null)
+                        ?.commit()
+                }
+                else {
+                    Toast.makeText(activity,"Login to add favourite",Toast.LENGTH_SHORT).show()
+                }
             }
         }
         return hotelDetailBinding.root
     }
 
-    fun favourite(placeId: String){
+    fun favourite(placeId: String) {
         val sharedPreferences =
             activity?.applicationContext?.getSharedPreferences(
                 "sharedPreference",
                 Context.MODE_PRIVATE
             )
-        val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+        val accessToken =
+            activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
         val data = AddFavouriteBody(placeId)
-        projectApi.addToFavourites(accessToken!!,data){
-            if (it == null){
-                Toast.makeText(activity?.applicationContext,"Something went wrong", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(activity?.applicationContext,it.message, Toast.LENGTH_SHORT).show()
+        projectApi.addToFavourites(accessToken!!, data) {
+            if (it == null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(activity?.applicationContext, it.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    fun addRating(){
+    fun addRating() {
         viewModel.addRatingDataObserver().observe(viewLifecycleOwner, Observer {
-            if (it == null){
-                Toast.makeText(activity?.applicationContext,"Something went wrong", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(activity?.applicationContext,it.message, Toast.LENGTH_SHORT).show()
+            if (it == null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(activity?.applicationContext, it.message, Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    fun rating(accessToken: String,data: RatingBody){
-        viewModel.addRating(accessToken,data)
+    fun getRating(accessToken: String, data: RatingBody) {
+        viewModel.addRating(accessToken, data)
     }
 
 }

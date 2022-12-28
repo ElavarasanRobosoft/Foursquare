@@ -32,7 +32,7 @@ class HotelDetailViewModel: ViewModel() {
         retrofit.getParticularPlaceDetails(data).enqueue(object : Callback<getParticularPlaceDetailsResponse> {
             override fun onFailure(call: Call<getParticularPlaceDetailsResponse>, t: Throwable) {
                 HotelDetailLiveDataList.postValue(null)
-                Log.d("place response",t.toString())
+                Log.d("place fail response",t.toString())
             }
             override fun onResponse(
                 call: Call<getParticularPlaceDetailsResponse>,
