@@ -1,9 +1,6 @@
 package com.robosoft.foursquare.model.network
 
-import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
-import com.robosoft.foursquare.model.dataclass.NameResponse
-import com.robosoft.foursquare.model.dataclass.ResponseMessage
-import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.*
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
@@ -125,6 +122,9 @@ interface ProjectApi {
     @PUT("/cancelFromFavourites")
     fun cancelFromFavourites(@Header("authorization") access_token: String, @Body data: AddFavouriteBody) : Call<ResponseMessage>
 
+    @Headers("Content-Type: application/json")
+    @PUT("/addRating")
+    fun addRating(@Header("authorization") access_token: String, @Body data: RatingBody) : Call<RatingResponse>
 }
 
 

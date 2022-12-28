@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.databinding.FragmentHotelDetailBinding
+import com.robosoft.foursquare.model.dataclass.RatingBody
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
@@ -109,6 +110,7 @@ class HotelDetailFragment : Fragment(){
             }
             submitRating.setOnClickListener {
                 Toast.makeText(activity?.applicationContext, "submit", Toast.LENGTH_SHORT).show()
+                //star function
             }
             builder.setCanceledOnTouchOutside(false)
             builder.window?.setBackgroundDrawableResource(R.color.transparent)
@@ -130,100 +132,115 @@ class HotelDetailFragment : Fragment(){
         }
 
         val data = getParticularPlaceDetailsBody(placeId!!, placeName!!)
+        val sharedPreferences =
+            activity?.applicationContext?.getSharedPreferences(
+                "sharedPreference",
+                Context.MODE_PRIVATE
+            )
+        val accessToken = activity?.applicationContext?.let {
+            SharedPreferenceManager(it).getAccessToken()
 
-        viewModel.getHotelDetailDataObserver().observe(viewLifecycleOwner, Observer {
-            if (it == null) {
-                Toast.makeText(
-                    activity?.applicationContext,
-                    "Something went wrong",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Log.d("response", it.toString())
+            viewModel.getHotelDetailDataObserver().observe(viewLifecycleOwner, Observer {
+                if (it == null) {
+                    Toast.makeText(
+                        activity?.applicationContext,
+                        "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Log.d("response", it.toString())
 
-                particularPlace = it
+                    particularPlace = it
 
-                val imageUrl = it.placeImages.url
-                hotelDetailBinding.backgroundImg.let { it ->
-                    val uri = Uri.parse(imageUrl)
-                    Picasso.with(activity).load(uri).into(it)
+                    val imageUrl = it.placeImages.url
+                    hotelDetailBinding.backgroundImg.let { it ->
+                        val uri = Uri.parse(imageUrl)
+                        Picasso.with(activity).load(uri).into(it)
+                    }
+
+                    when (it.totalrating.toInt() / 2) {
+                        1 -> {
+                            hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        }
+                        2 -> {
+                            hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+
+                        }
+                        3 -> {
+                            hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+
+                        }
+                        4 -> {
+                            hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+
+                        }
+                        5 -> {
+                            hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_selected_2x)
+                            hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_selected_2x)
+                        }
+                        else -> {
+                            hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
+                            hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+                        }
+                    }
+
+                    hotelDetailBinding.hotelName.text = it.placeName
+                    hotelDetailBinding.hotelDesc.text = it.keywords
+                    hotelDetailBinding.descTv.text = it.overview
+                    hotelDetailBinding.hotelAddressTv.text = it.address
+                    hotelDetailBinding.hotelContactTv.text = it.phoneNumber
+                    hotelDetailBinding.hotelDistanceTv.text = "Drive : $distance Km"
+
+                    val mapFragment = childFragmentManager
+                        .findFragmentById(R.id.hotel_map_view) as SupportMapFragment
+                    mapFragment.getMapAsync {
+                        mMap = it
+                        val placeLatLong = LatLng(
+                            particularPlace.location.coordinates[1],
+                            particularPlace.location.coordinates[0]
+                        )
+
+                        mMap?.apply {
+                            addMarker(
+                                MarkerOptions().position(placeLatLong)
+                                    .title(particularPlace.placeName)
+                            )
+                            moveCamera(CameraUpdateFactory.newLatLngZoom(placeLatLong, 12f))
+                        }
+                    }
                 }
 
-                when (it.totalrating.toInt() / 2) {
-                    1 -> {
-                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
-                    }
-                    2 -> {
-                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
+            })
+            viewModel.getParticularPlaceDetails(data)
 
-                    }
-                    3 -> {
-                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
 
-                    }
-                    4 -> {
-                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
-
-                    }
-                    5 -> {
-                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_selected_2x)
-                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_selected_2x)
-                    }
-                    else -> {
-                        hotelDetailBinding.startOne.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startTwo.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startThree.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFour.setImageResource(R.drawable.rating_icon_unselected_2x)
-                        hotelDetailBinding.startFive.setImageResource(R.drawable.rating_icon_unselected_2x)
-                    }
-                }
-
-                hotelDetailBinding.hotelName.text = it.placeName
-                hotelDetailBinding.hotelDesc.text = it.keywords
-                hotelDetailBinding.descTv.text = it.overview
-                hotelDetailBinding.hotelAddressTv.text = it.address
-                hotelDetailBinding.hotelContactTv.text = it.phoneNumber
-                hotelDetailBinding.hotelDistanceTv.text = "Drive : $distance Km"
-
-                val mapFragment = childFragmentManager
-                    .findFragmentById(R.id.hotel_map_view) as SupportMapFragment
-                mapFragment.getMapAsync{
-                    mMap = it
-                    val placeLatLong = LatLng(particularPlace.location.coordinates[1],particularPlace.location.coordinates[0])
-
-                    mMap?.apply {
-                        addMarker(MarkerOptions().position(placeLatLong).title(particularPlace.placeName))
-                        moveCamera(CameraUpdateFactory.newLatLngZoom(placeLatLong,12f))
-                    }
-                }
+            hotelDetailBinding.addReview.setOnClickListener {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.hotel_container, AddReviewFragment())?.addToBackStack(null)
+                    ?.commit()
             }
-
-        })
-        viewModel.getParticularPlaceDetails(data)
-
-
-        hotelDetailBinding.addReview.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.hotel_container, AddReviewFragment())?.addToBackStack(null)?.commit()
         }
         return hotelDetailBinding.root
     }
@@ -243,6 +260,20 @@ class HotelDetailFragment : Fragment(){
                 Toast.makeText(activity?.applicationContext,it.message, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    fun addRating(){
+        viewModel.addRatingDataObserver().observe(viewLifecycleOwner, Observer {
+            if (it == null){
+                Toast.makeText(activity?.applicationContext,"Something went wrong", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(activity?.applicationContext,it.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    fun rating(accessToken: String,data: RatingBody){
+        viewModel.addRating(accessToken,data)
     }
 
 }
