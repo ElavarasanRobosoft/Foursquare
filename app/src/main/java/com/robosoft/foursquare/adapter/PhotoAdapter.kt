@@ -42,7 +42,6 @@ class PhotoAdapter(
         }
 
         holder.itemView.setOnClickListener {
-
             val image = reviewImageList[position]
             val profileImg = data.data.reviews[position].userId.profileImage.public_id
             val userName = data.data.reviews[position].userId.fullName

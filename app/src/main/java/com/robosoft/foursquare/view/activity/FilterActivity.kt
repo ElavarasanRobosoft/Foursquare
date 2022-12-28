@@ -14,22 +14,30 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.adapter.FilterAdapter
-import com.robosoft.foursquare.adapter.NearByCityAdapter
-import com.robosoft.foursquare.adapter.ViewModelRecyclerAdapter
 import com.robosoft.foursquare.databinding.ActivityFilterBinding
-import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
+import com.robosoft.foursquare.model.dataclass.filter.FilterBody
 import com.robosoft.foursquare.viewModel.FilterViewModel
-import com.robosoft.foursquare.viewModel.SearchViewModel
 
 class FilterActivity : AppCompatActivity() {
 
     private lateinit var filterBinding: ActivityFilterBinding
     private lateinit var viewModel: FilterViewModel
 
+    lateinit var sortBy: String
+    var priceRange: Int = 0
+    var text = ""
+    var acceptCard = false
+    var delivery = false
+    var dogFriendly = false
+    var familyFriendlyPlace = false
+    var inWalkingDistance = false
+    var outdoorSeating = false
+    var parking = false
+    var wifi = false
+
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
 
         val sharedPreferences =
@@ -44,7 +52,6 @@ class FilterActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[FilterViewModel::class.java]
 
-        val data = mutableMapOf<String, Any>()
 
         filterBinding.backIbn.setOnClickListener {
             onBackPressed()
@@ -53,7 +60,6 @@ class FilterActivity : AppCompatActivity() {
         var popular = false
         var distance = false
         var rating = false
-
 
         filterBinding.popular.setOnClickListener {
             if (!popular) {
@@ -101,6 +107,7 @@ class FilterActivity : AppCompatActivity() {
         var rupeeTwo = false
         var rupeeThree = false
         var rupeeFour = false
+
 
         filterBinding.rupee1.setOnClickListener {
             if (!rupeeOne) {
@@ -168,14 +175,6 @@ class FilterActivity : AppCompatActivity() {
             }
         }
 
-        var acceptCard = false
-        var delivery = false
-        var dogFriendly = false
-        var familyFriendlyPlace = false
-        var inWalkingDistance = false
-        var outdoorSeating = false
-        var parking = false
-        var wifi = false
 
 
         filterBinding.acceptCard.setOnClickListener {
@@ -183,12 +182,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.acceptCardTv.setTextColor(R.color.selectedColor)
                 filterBinding.acceptCardIv.setImageResource(R.drawable.filter_selected)
                 acceptCard = true
-                data["acceptcreditCards"] = true
             } else {
                 filterBinding.acceptCardTv.setTextColor(R.color.unselectedColor)
                 filterBinding.acceptCardIv.setImageResource(R.drawable.icon_add)
                 acceptCard = false
-                data.remove("acceptcreditCards")
             }
         }
 
@@ -197,12 +194,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.deliveryTv.setTextColor(R.color.selectedColor)
                 filterBinding.deliveryIv.setImageResource(R.drawable.filter_selected)
                 delivery = true
-                data["delivery"] = true
             } else {
                 filterBinding.deliveryTv.setTextColor(R.color.unselectedColor)
                 filterBinding.deliveryIv.setImageResource(R.drawable.icon_add)
                 delivery = false
-                data.remove("delivery")
             }
         }
 
@@ -211,12 +206,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.dogFriendlyTv.setTextColor(R.color.selectedColor)
                 filterBinding.dogFriendlyIv.setImageResource(R.drawable.filter_selected)
                 dogFriendly = true
-                data["dogFriendly"] = true
             } else {
                 filterBinding.dogFriendlyTv.setTextColor(R.color.unselectedColor)
                 filterBinding.dogFriendlyIv.setImageResource(R.drawable.icon_add)
                 dogFriendly = false
-                data.remove("dogFriendly")
             }
         }
 
@@ -225,12 +218,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.familyFriendlyPlacesTv.setTextColor(R.color.selectedColor)
                 filterBinding.familyFriendlyPlacesIv.setImageResource(R.drawable.filter_selected)
                 familyFriendlyPlace = true
-                data["familyFriendlyPlace"] = true
             } else {
                 filterBinding.familyFriendlyPlacesTv.setTextColor(R.color.unselectedColor)
                 filterBinding.familyFriendlyPlacesIv.setImageResource(R.drawable.icon_add)
                 familyFriendlyPlace = false
-                data.remove("familyFriendlyPlace")
             }
         }
 
@@ -239,12 +230,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.inWalkDistanceTv.setTextColor(R.color.selectedColor)
                 filterBinding.inWalkDistanceIv.setImageResource(R.drawable.filter_selected)
                 inWalkingDistance = true
-                data["inWalkingdistance"] = true
             } else {
                 filterBinding.inWalkDistanceTv.setTextColor(R.color.unselectedColor)
                 filterBinding.inWalkDistanceIv.setImageResource(R.drawable.icon_add)
                 inWalkingDistance = false
-                data.remove("inWalkingdistance")
             }
         }
 
@@ -253,12 +242,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.outdoorSeatingTv.setTextColor(R.color.selectedColor)
                 filterBinding.outdoorSeatingIv.setImageResource(R.drawable.filter_selected)
                 outdoorSeating = true
-                data["outdoorSeating"] = true
             } else {
                 filterBinding.outdoorSeatingTv.setTextColor(R.color.unselectedColor)
                 filterBinding.outdoorSeatingIv.setImageResource(R.drawable.icon_add)
                 outdoorSeating = false
-                data.remove("outdoorSeating")
             }
         }
 
@@ -267,12 +254,10 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.parkingTv.setTextColor(R.color.selectedColor)
                 filterBinding.parkingIv.setImageResource(R.drawable.filter_selected)
                 parking = true
-                data["parking"] = true
             } else {
                 filterBinding.parkingTv.setTextColor(R.color.unselectedColor)
                 filterBinding.parkingIv.setImageResource(R.drawable.icon_add)
                 parking = false
-                data.remove("parking")
             }
         }
 
@@ -281,55 +266,72 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.wifiTv.setTextColor(R.color.selectedColor)
                 filterBinding.wifiIv.setImageResource(R.drawable.filter_selected)
                 wifi = true
-                data["wifi"] = true
             } else {
                 filterBinding.wifiTv.setTextColor(R.color.unselectedColor)
                 filterBinding.wifiIv.setImageResource(R.drawable.icon_add)
                 wifi = false
-                data.remove("wifi")
             }
         }
 
 
+
         filterBinding.doneTv.setOnClickListener {
-            data["latitude"] = currentLat
-            data["longitude"] = currentLong
 
-            data["sortBy"]=
-                if (popular) "popular"
-                else if (distance) "totaldistance"
-                else if (rating) "totalrating"
-                else ""
+            sortBy = if (popular) "popular"
+            else if (distance) "totaldistance"
+            else if (rating) "totalrating"
+            else ""
 
-            data["priceRange"] =
-                if (rupeeOne) 9
-                else if (rupeeTwo) 99
-                else if (rupeeThree) 999
-                else if (rupeeFour) 9999
-                else 0
+            priceRange = if (rupeeOne) 9
+            else if (rupeeTwo) 99
+            else if (rupeeThree) 999
+            else if (rupeeFour) 9999
+            else 0
 
-            Log.d("sort by",popular.toString())
-            Log.d("sort by",distance.toString())
-            Log.d("sort by",rating.toString())
-            data["radius"] = filterBinding.radiusEt.text
-            data["text"] = filterBinding.search.query.toString()
-            Log.d("data",data.toString())
-            getFilter()
-            searchByFilter(data)
+            text = filterBinding.search.query.toString()
+            val radius = 10
+
+            if (sortBy.isEmpty()){
+                Toast.makeText(this,"select sort value",Toast.LENGTH_SHORT).show()
+                if (priceRange == 0){
+                    Toast.makeText(this,"select price value",Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                val data = FilterBody(
+                    acceptCard,
+                    delivery,
+                    dogFriendly,
+                    familyFriendlyPlace,
+                    inWalkingDistance,
+                    currentLat,
+                    currentLong,
+                    outdoorSeating,
+                    parking,
+                    priceRange,
+                    radius,
+                    sortBy,
+                    text,
+                    wifi
+                )
+                Log.d("data", data.toString())
+                getFilter()
+                searchByFilter(data)
+            }
         }
     }
 
     private fun getFilter() {
         viewModel.getFilterLiveDataObserver().observe(this, Observer {
             if (it != null) {
-                Log.d("response",it.toString())
+                Log.d("response", it.toString())
                 filterBinding.filterView.visibility = View.GONE
-                filterBinding.filterRecyclerView.visibility = View.VISIBLE
+                filterBinding.filterRecyclerLayout.visibility = View.VISIBLE
                 filterBinding.filterRecyclerView.layoutManager =
                     LinearLayoutManager(this)
                 filterBinding.filterRecyclerView.adapter =
                     FilterAdapter(this, it, lifecycleScope)
             } else {
+                filterBinding.filterView.visibility = View.VISIBLE
                 Toast.makeText(
                     this,
                     "select values",
@@ -339,7 +341,7 @@ class FilterActivity : AppCompatActivity() {
         })
     }
 
-    fun searchByFilter(data: MutableMap<String, Any>) {
+    fun searchByFilter(data: FilterBody) {
         viewModel.searchByFilter(data)
     }
 }

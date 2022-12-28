@@ -1,10 +1,7 @@
 package com.robosoft.foursquare.model.network
 
 import android.util.Log
-import com.robosoft.foursquare.model.dataclass.ChangePasswordBody
-import com.robosoft.foursquare.model.dataclass.NameResponse
-import com.robosoft.foursquare.model.dataclass.ResponseMessage
-import com.robosoft.foursquare.model.dataclass.VerifyOtpBody
+import com.robosoft.foursquare.model.dataclass.*
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
@@ -172,7 +169,6 @@ class ProjectService {
 
 
     fun getName(access_token: String, onResult: (NameResponse?) -> Unit) {
-
         retrofit.getName(access_token).enqueue(object : Callback<NameResponse> {
             override fun onResponse(
                 call: Call<NameResponse>,
@@ -182,6 +178,21 @@ class ProjectService {
             }
 
             override fun onFailure(call: Call<NameResponse>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
+
+    fun logout(access_token: String, onResult: (LogoutResponse?) -> Unit) {
+        retrofit.logout(access_token).enqueue(object : Callback<LogoutResponse> {
+            override fun onResponse(
+                call: Call<LogoutResponse>,
+                response: Response<LogoutResponse>
+            ) {
+                onResult(response.body())
+            }
+
+            override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
                 onResult(null)
             }
         })

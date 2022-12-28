@@ -30,6 +30,13 @@ lifecycleScope: LifecycleCoroutineScope
 
     private val projectApi = ProjectService()
     var favourite = false
+    val sharedPreferences =
+        activity?.applicationContext?.getSharedPreferences(
+            "sharedPreference",
+            Context.MODE_PRIVATE
+        )
+
+    val login = sharedPreferences?.getString("Login", "")!!
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -95,15 +102,22 @@ lifecycleScope: LifecycleCoroutineScope
 
         holder.address.text = hotelData.address
 
+
         holder.favourite.setOnClickListener {
-            if (!favourite){
-                holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
-                favourite(hotelData._id)
-                favourite = true
-            } else {
-                holder.favourite.setImageResource(R.drawable.favourite_icon_copy)
-                favourite(hotelData._id)
-                favourite = false
+
+            if (login == "Login"){
+                if (!favourite){
+                    holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
+                    favourite(hotelData._id)
+                    favourite = true
+                } else {
+                    holder.favourite.setImageResource(R.drawable.favourite_icon_copy)
+                    favourite(hotelData._id)
+                    favourite = false
+                }
+            }
+            else {
+                Toast.makeText(activity,"Login to add favourite",Toast.LENGTH_SHORT).show()
             }
         }
 

@@ -71,9 +71,7 @@ class FavouriteActivity : AppCompatActivity() {
         val data = HotelBody(currentLat,currentLong)
         viewModel.getFavouriteLiveDataObserver().observe(this, Observer {
             if (it != null) {
-                Log.d("data",data.toString())
-                Log.d("favourite response", it.size.toString())
-                Log.d("accessToken",accessToken)
+                Log.d("Favourite",it.toString())
                 favouriteBinding.favouritesRecyclerView.layoutManager =
                     LinearLayoutManager(this)
                 favouriteBinding.favouritesRecyclerView.adapter =

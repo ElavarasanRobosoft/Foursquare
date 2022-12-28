@@ -70,34 +70,34 @@
                 android:layout_gravity="center">
 
                 <ImageView
-                    android:id="@+id/start_one"
+                    android:id="@+id/star_one"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/rating_icon_unselected_2x" />
 
                 <ImageView
-                    android:id="@+id/start_two"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/rating_icon_unselected_2x" />
-
-                <ImageView
-                    android:id="@+id/start_three"
+                    android:id="@+id/star_two"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
                     android:src="@drawable/rating_icon_unselected_2x" />
 
                 <ImageView
-                    android:id="@+id/start_four"
+                    android:id="@+id/star_three"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"
                     android:src="@drawable/rating_icon_unselected_2x" />
 
                 <ImageView
-                    android:id="@+id/start_five"
+                    android:id="@+id/star_four"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/rating_icon_unselected_2x" />
+
+                <ImageView
+                    android:id="@+id/star_five"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="5dp"

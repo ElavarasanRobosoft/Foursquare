@@ -109,8 +109,10 @@ class LoginFragment : Fragment() {
                                 )
                             val editor = sharedPreferences?.edit()
                             editor?.putString("accessToken", it.access_token)
-                            editor?.putString("Login","true")
+                            editor?.putString("Login","Login")
                             editor?.apply()
+                            loginBinding.emailEt.text.clear()
+                            loginBinding.passwordEt.text.clear()
                             activity?.startActivity(
                                 Intent(
                                     activity,

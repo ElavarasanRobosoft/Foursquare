@@ -30,8 +30,6 @@ import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.menuitems.AboutusActivity
 import com.robosoft.foursquare.view.activity.menuitems.FavouriteActivity
 import com.robosoft.foursquare.view.activity.menuitems.FeedbackActivity
-import kotlinx.android.synthetic.main.custom_toolbar_home.view.*
-import kotlinx.android.synthetic.main.fragment_otp.view.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -61,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
                 Context.MODE_PRIVATE
             )
         val accessToken = SharedPreferenceManager(this).getAccessToken()
+        val login = sharedPreferences?.getString("Login", "")!!
 
         drawerLayout = homeBinding.drawerLayout
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
@@ -74,11 +73,10 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-
         val navigationView: NavigationView = homeBinding.navigationView
 
         navigationView.getHeaderView(0).setOnClickListener {
-            Toast.makeText(this,"upload Image",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "upload Image", Toast.LENGTH_SHORT).show()
         }
 
 //        projectApi.getName(accessToken){
@@ -92,16 +90,38 @@ class HomeActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_favourites -> {
-                    startActivity(Intent(this, FavouriteActivity::class.java))
+                    if (login == "Login") {
+                        startActivity(Intent(this, FavouriteActivity::class.java))
+                    } else {
+                        Toast.makeText(this, "Login to see favourite", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 R.id.nav_feedback -> {
-                    startActivity(Intent(this, FeedbackActivity::class.java))
+                    if (login == "Login") {
+                        startActivity(Intent(this, FeedbackActivity::class.java))
+                    } else {
+                        Toast.makeText(this, "Login to add feedback", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
                 R.id.nav_about_us -> {
+
                     startActivity(Intent(this, AboutusActivity::class.java))
                 }
                 R.id.nav_logout -> {
-                    Toast.makeText(applicationContext, "Logout", Toast.LENGTH_SHORT).show()
+                    if (login == "Login") {
+                        val sharedPreference =
+                            this.getSharedPreferences(
+                                "sharedPreference",
+                                Context.MODE_PRIVATE
+                            )
+                        val editor = sharedPreference?.edit()
+                        editor?.putString("Login","Logout")
+                        editor?.apply()
+                        this.finish()
+                    } else {
+                        Toast.makeText(this, "Login first", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             true
@@ -140,11 +160,11 @@ class HomeActivity : AppCompatActivity() {
                         Context.MODE_PRIVATE
                     )
                 val editor = sharedPreferences?.edit()
-                editor?.putString("currentLat",location.latitude.toString())
-                editor?.putString("currentLong",location.longitude.toString())
+                editor?.putString("currentLat", location.latitude.toString())
+                editor?.putString("currentLong", location.longitude.toString())
                 editor?.apply()
-                Log.d("location",currentLatLong.toString())
-                viewPager2.adapter = ViewPagerAdapter(this,currentLatLong)
+                Log.d("location", currentLatLong.toString())
+                viewPager2.adapter = ViewPagerAdapter(this, currentLatLong)
 
                 TabLayoutMediator(tabLayout, viewPager2) { tab, index ->
                     tab.text = when (index) {
@@ -164,10 +184,10 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         homeBinding.toolbar.searchIbn.setOnClickListener {
-            startActivity(Intent(this,SearchActivity::class.java))
+            startActivity(Intent(this, SearchActivity::class.java))
         }
         homeBinding.toolbar.filterIbn.setOnClickListener {
-            startActivity(Intent(this,FilterActivity::class.java))
+            startActivity(Intent(this, FilterActivity::class.java))
         }
     }
 

@@ -3,8 +3,8 @@ package com.robosoft.foursquare.viewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.robosoft.foursquare.model.dataclass.filter.FilterBody
 import com.robosoft.foursquare.model.dataclass.filter.FilterResponse
-import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.network.ProjectApi
 import com.robosoft.foursquare.model.network.ServiceBuilderObject
 import retrofit2.Call
@@ -21,7 +21,7 @@ class FilterViewModel: ViewModel() {
         return  FilterLiveDataList
     }
 
-    fun searchByFilter(data: MutableMap<String, Any>) {
+    fun searchByFilter(data: FilterBody) {
         retrofit.searchByFilter(data).enqueue(object : Callback<FilterResponse> {
             override fun onFailure(call: Call<FilterResponse>, t: Throwable) {
                 FilterLiveDataList.postValue(null)
