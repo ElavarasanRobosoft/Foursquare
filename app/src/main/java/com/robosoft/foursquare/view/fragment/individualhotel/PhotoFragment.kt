@@ -65,20 +65,40 @@ class PhotoFragment : Fragment() {
 
                 val reviewImageList = mutableListOf<String>()
                 val profileImageList = mutableListOf<String>()
+                val userFullNameList = mutableListOf<String>()
+                val createdDate = mutableListOf<String>()
+
 
                 for(i in it.data.reviews){
                     reviewImageList.addAll(i.reviewImage.urls)
+
+                    profileImageList.addAll(listOf(i.userId.profileImage.public_id))
+
+                    userFullNameList.addAll(listOf(i.userId.fullName))
+
+                    createdDate.addAll(listOf(i.createdOn))
                 }
 
-                for(i in it.data.reviews){
-                    profileImageList.addAll(listOf(i.userId.profileImage.public_id))
-                }
+//
+//                for(i in it.data.reviews){
+//                    profileImageList.addAll(listOf(i.userId.profileImage.public_id))
+//                }
+//
+//                for(i in it.data.reviews){
+//                    userFullNameList.addAll(listOf(i.userId.fullName))
+//                }
+//
+//                for(i in it.data.reviews){
+//                    createdDate.addAll(listOf(i.createdOn))
+//                }
+
+
                 Log.d("review images",reviewImageList.toString())
 
                 photoBinding.photoRecyclerView.layoutManager =
                     GridLayoutManager(activity?.applicationContext, 3)
                 photoBinding.photoRecyclerView.adapter =
-                    PhotoAdapter(activity,reviewImageList,profileImageList,it, lifecycleScope)
+                    PhotoAdapter(activity,reviewImageList,profileImageList,userFullNameList,createdDate,it, lifecycleScope)
             }
         })
         viewModel.getImagesByPlaceId(data)

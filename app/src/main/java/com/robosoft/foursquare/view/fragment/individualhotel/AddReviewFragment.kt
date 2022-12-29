@@ -1,34 +1,43 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
-import com.robosoft.foursquare.adapter.NearByCityAdapter
 import com.robosoft.foursquare.databinding.FragmentAddReviewBinding
-import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
-import com.robosoft.foursquare.model.network.ProjectApi
+import com.robosoft.foursquare.model.dataclass.addreview.ImageList
+import com.robosoft.foursquare.model.dataclass.addreview.ReviewBody
+import com.robosoft.foursquare.model.dataclass.addreview.ReviewImageRequest
 import com.robosoft.foursquare.viewModel.AddReviewViewModel
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.File
 
 class AddReviewFragment : Fragment() {
 
     private lateinit var addReviewBinding: FragmentAddReviewBinding
     private lateinit var viewModel: AddReviewViewModel
+    private var imageList = mutableListOf<Uri>()
+    private var imagePath = mutableListOf<String>()
     val permissionList =
         arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
 
@@ -46,12 +55,26 @@ class AddReviewFragment : Fragment() {
         val placeId = placeBundle?.getString("placeId")
         val placeName = placeBundle?.getString("placeName")
 
+        Log.d("place", placeId.toString())
+
         addReviewBinding.reviewBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
         addReviewBinding.hotelName.text = placeName
 
+
+        addReviewBinding.addImgOne?.setOnClickListener {
+            if (!checkPermission(activity?.applicationContext!!, permissionList[0])) {
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf(permissionList[0]), 1
+                )
+            } else {
+                var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, 1)
+            }
+        }
 
         addReviewBinding.reviewSubmit?.setOnClickListener {
 
@@ -60,34 +83,70 @@ class AddReviewFragment : Fragment() {
                     "sharedPreference",
                     Context.MODE_PRIVATE
                 )
-            val accessToken = SharedPreferenceManager(activity?.applicationContext!!).getAccessToken()
-            val review = addReviewBinding.reviewEt?.text
+            val accessToken =
+                SharedPreferenceManager(activity?.applicationContext!!).getAccessToken()
 
-            val place = RequestBody.create(MediaType.parse("multipart/form-data"),
+            val review = addReviewBinding.reviewEt?.text.toString()
+            addReviewPage()
+            val data = ReviewBody(placeId.toString(), review)
+            addReviewBody(accessToken, data)
+
+            var images: MutableList<ImageList>? = mutableListOf<ImageList>()
+
+            for (i in imagePath) {
+                val file: File = File(i)
+                val requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file)
+
+                val body: MultipartBody.Part =
+                    MultipartBody.Part.createFormData("image", file.name, requestFile)
+                images?.add(ImageList(body))
+            }
+
+            val place = RequestBody.create(
+                MediaType.parse("multipart/form-data"),
                 placeId.toString()
             )
-            val userReview = RequestBody.create(MediaType.parse("multipart/form-data"),review.toString())
 
-//            val requestbody: RequestBody =
-//                MultipartBody.Builder()
-//                    .setType(okhttp3.MultipartBody.FORM)
-//                    .addFormDataPart("placeId", placeId.toString())
-//                    .addFormDataPart("review", review.toString())
-//                    .build()
-////            addReviewPage()
-//            Log.d("placeId",placeId.toString())
-//            Log.d("review",review.toString())
-////            addReviewBody(accessToken,requestbody)
-//            Log.d("review",requestbody.toString())
+            if (images?.isEmpty() == true)
+                images = null
+            val reviewImageRequest = ReviewImageRequest(images)
 
-            addReviewPage()
-            addReviewBody(accessToken,place,userReview)
+            addReviewImage()
+            addImage(accessToken, place, reviewImageRequest.imageList)
         }
 
         return addReviewBinding.root
     }
 
+
     fun addReviewPage() {
+        viewModel.getAddReviewDataObserver().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    it.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    fun addReviewBody(
+        accessToken: String,
+        data: ReviewBody
+    ) {
+        viewModel.addReviewByText(accessToken, data)
+    }
+
+
+    fun addReviewImage() {
         viewModel.getReviewDataObserver().observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Toast.makeText(
@@ -105,13 +164,57 @@ class AddReviewFragment : Fragment() {
         })
     }
 
-    fun addReviewBody(accessToken: String,placeId: RequestBody,review : RequestBody) {
-        viewModel.addReviews(accessToken,placeId, review)
+    fun addImage(
+        accessToken: String,
+        placeId: RequestBody, imageList: MutableList<ImageList>?
+    ) {
+        viewModel.addImage(accessToken, placeId, imageList)
     }
 
-//    fun addReview(placeId: String, review: String){
-//        val place = RequestBody.create(MediaType.parse("multipart/form-data"),placeId)
-//        val userreview = RequestBody.create(MediaType.parse("multipart/form-data"),review)
-//    }
+    private fun checkPermission(context: Context?, PERMISSION: String): Boolean {
+        context?.apply {
+            PERMISSION.apply {
+                if (ActivityCompat.checkSelfPermission(
+                        context,
+                        PERMISSION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (permissions[0].equals(permissionList[0])) {
+                    var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, 1)
+                } else {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    startActivityForResult(intent, 2)
+                }
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_OK) {
+            var bmp = data?.extras?.get("data")
+            addReviewBinding.addImgOne?.setImageBitmap(bmp as Bitmap)
+        } else if (requestCode == 2) {
+            addReviewBinding.addImgOne?.setImageURI(data?.data)
+        }
+    }
 }

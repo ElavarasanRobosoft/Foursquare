@@ -30,13 +30,13 @@ class IndividualPhotoFragment : Fragment() {
 
         val bundle = arguments
         val image = bundle?.getString("image")
-//        val profileImg = bundle?.getString("profileImg")
+        val profileImg = bundle?.getString("profileImg")
         val userName = bundle?.getString("userName")
         val date = bundle?.getString("date")
 
 
         individualPhotoBinding.backIbn.setOnClickListener {
-
+            requireActivity().onBackPressed()
         }
 
         val imageUrl = image
@@ -45,12 +45,12 @@ class IndividualPhotoFragment : Fragment() {
             Picasso.with(activity).load(uri).into(it)
         }
 
-        individualPhotoBinding.profilePic.setImageResource(R.drawable.profile_icon)
-//            profileImg
-//        individualPhotoBinding.profilePic.let {
-//            val uri = Uri.parse(profileImageUrl)
-//            Picasso.with(activity).load(uri).into(it)
-//        }
+//        individualPhotoBinding.profilePic.setImageResource(R.drawable.profile_icon)
+            val profileImageUrl = profileImg
+        individualPhotoBinding.profilePic.let {
+            val uri = Uri.parse(profileImageUrl)
+            Picasso.with(activity).load(uri).into(it)
+        }
 
         individualPhotoBinding.username.text = userName
 

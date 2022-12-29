@@ -19,6 +19,8 @@ class PhotoAdapter(
     private val activity: FragmentActivity?,
     private val reviewImageList: MutableList<String>,
     private val profileImageList: MutableList<String>,
+    private val userFullNameList: MutableList<String>,
+    private val createdDate: MutableList<String>,
     private val data:PhotoReviewResponse,
     lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
@@ -44,13 +46,13 @@ class PhotoAdapter(
 
         holder.itemView.setOnClickListener {
             val image = reviewImageList[position]
-//            val profileImg = profileImageList[position]
-            val userName = data.data.reviews[position].userId.fullName
-            val date = data.data.reviews[position].createdOn
+            val profileImg = profileImageList[position]
+            val userName = userFullNameList[position]
+            val date = createdDate[position]
 
             val bundle = Bundle()
             bundle.putString("image",image)
-//            bundle.putString("profileImg", profileImg)
+            bundle.putString("profileImg", profileImg)
             bundle.putString("userName",userName)
             bundle.putString("date",date)
             val individualPhotoFragment = IndividualPhotoFragment()

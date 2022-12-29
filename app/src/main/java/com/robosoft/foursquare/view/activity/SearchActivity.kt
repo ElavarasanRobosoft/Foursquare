@@ -87,6 +87,8 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+
+
         searchBinding.mapSubmitView.setOnClickListener {
 
             searchBinding.mapSubmitView.visibility = View.GONE
