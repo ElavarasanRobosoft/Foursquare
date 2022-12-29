@@ -22,6 +22,7 @@
         <entry key="..\:/Foursquare/app/src/main/res/drawable/icon_add.xml" value="0.18" />
         <entry key="..\:/Foursquare/app/src/main/res/layout-land/activity_feedback.xml" value="0.40074906367041196" />
         <entry key="..\:/Foursquare/app/src/main/res/layout-land/fragment_add_review.xml" value="0.25" />
+        <entry key="..\:/Foursquare/app/src/main/res/layout-land/fragment_add_text_review.xml" value="0.518955349620893" />
         <entry key="..\:/Foursquare/app/src/main/res/layout-land/fragment_near_you.xml" value="0.25" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/activity_.xml" value="0.19342105263157894" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/activity_aboutus.xml" value="0.25" />
@@ -43,6 +44,7 @@
         <entry key="..\:/Foursquare/app/src/main/res/layout/custom_toolbar_home.xml" value="0.33" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/favourite_tab.xml" value="0.325" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_add_review.xml" value="0.22" />
+        <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_add_text_review.xml" value="0.26228070175438595" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_coffee.xml" value="0.1" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_favourite.xml" value="0.2754385964912281" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/fragment_feedback.xml" value="0.2754385964912281" />
@@ -67,7 +69,7 @@
         <entry key="..\:/Foursquare/app/src/main/res/layout/photo_review_tab.xml" value="0.2" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/place_tab.xml" value="0.67" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/rating_alertbox.xml" value="0.33" />
-        <entry key="..\:/Foursquare/app/src/main/res/layout/review_tab.xml" value="0.29078947368421054" />
+        <entry key="..\:/Foursquare/app/src/main/res/layout/review_tab.xml" value="0.67" />
         <entry key="..\:/Foursquare/app/src/main/res/layout/search_tab.xml" value="0.2855263157894737" />
         <entry key="..\:/Foursquare/app/src/main/res/menu/navigation_menu.xml" value="0.5" />
       </map>

@@ -71,11 +71,13 @@ class HotelDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HotelDetailViewModel::class.java]
 
+
         val sharedPreferences =
             activity?.applicationContext?.getSharedPreferences(
                 "sharedPreference",
                 Context.MODE_PRIVATE
             )
+
         val accessToken = activity?.applicationContext?.let {
             SharedPreferenceManager(it).getAccessToken()
             val currentLat = sharedPreferences?.getString("currentLat", "")
@@ -352,7 +354,7 @@ class HotelDetailFragment : Fragment() {
                         ?.commit()
                 }
                 else {
-                    Toast.makeText(activity,"Login to add favourite",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Login to add review",Toast.LENGTH_SHORT).show()
                 }
             }
         }

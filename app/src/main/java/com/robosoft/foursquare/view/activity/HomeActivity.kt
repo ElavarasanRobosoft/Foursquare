@@ -1,14 +1,18 @@
 package com.robosoft.foursquare.view.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +34,8 @@ import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.menuitems.AboutusActivity
 import com.robosoft.foursquare.view.activity.menuitems.FavouriteActivity
 import com.robosoft.foursquare.view.activity.menuitems.FeedbackActivity
+import kotlinx.android.synthetic.main.menu_header.view.*
+import kotlinx.android.synthetic.main.review_tab.view.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -75,35 +81,48 @@ class HomeActivity : AppCompatActivity() {
 
         val navigationView: NavigationView = homeBinding.navigationView
 
+//        val headerView : View = navigationView.getHeaderView(0)
+//        val navUserImage : TextView = headerView.findViewById(R.id.profile_img)
+//        val navUserName : TextView = headerView.findViewById(R.id.username_home)
 
         if(login == "Login"){
-            navigationView.getHeaderView(0).setOnClickListener {
+            navigationView.getHeaderView(0).profile_img.setOnClickListener {
                 Toast.makeText(this, "user Profile", Toast.LENGTH_SHORT).show()
             }
         } else {
-            navigationView.getHeaderView(0).setOnClickListener {
+            navigationView.getHeaderView(0).profile_img.setOnClickListener {
                 Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show()
             }
         }
 
-
 //            if(login == "Login"){
-//                navigationView.getHeaderView(1).setOnClickListener {
-//                    Toast.makeText(this, "user name", Toast.LENGTH_SHORT).show()
-//                }
+//                navigationView.getHeaderView(0).username_home.text = "Elavarasan"
 //            } else {
-//                navigationView.getHeaderView(1).setOnClickListener {
+//                navigationView.getHeaderView(0).username_home.text = "Login"
+//                navigationView.getHeaderView(0).username_home.setTextColor(Color.parseColor("#8D8D8D"))
+//                navigationView.getHeaderView(0).setOnClickListener {
 //                    finish()
 //                }
 //            }
 
-//        projectApi.getName(accessToken){
-//            if (it == null){
-//
-//            } else {
-//
-//            }
-//        }
+        if(login == "Login"){
+            projectApi.getName(accessToken){
+                if (it != null){
+                    Log.d("name response", it.toString())
+                    navigationView.getHeaderView(0).username_home.text = it.fullName
+                } else {
+                    Toast.makeText(this,"Something went wrong",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        else {
+            navigationView.getHeaderView(0).username_home.text = "Login"
+            navigationView.getHeaderView(0).username_home.setTextColor(Color.parseColor("#8D8D8D"))
+            navigationView.getHeaderView(0).setOnClickListener {
+                finish()
+            }
+        }
+
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {

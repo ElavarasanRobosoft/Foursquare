@@ -38,6 +38,17 @@ class ReviewFragment : Fragment() {
             requireActivity().onBackPressed()
         }
 
+
+        reviewBinding.addReviewIbn.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("placeId", placeId)
+            bundle.putString("placeName", placeName)
+            val textReview = AddTextReviewFragment()
+            textReview.arguments = placeBundle
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.hotel_container, textReview)?.addToBackStack(null)?.commit()
+        }
+
         reviewBinding.hotelName.text = placeName
         val data = GetReviewResponseBody(placeId.toString())
 

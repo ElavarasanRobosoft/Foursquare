@@ -2,6 +2,7 @@ package com.robosoft.foursquare.view.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -183,7 +184,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.acceptCardIv.setImageResource(R.drawable.filter_selected)
                 acceptCard = true
             } else {
-                filterBinding.acceptCardTv.setTextColor(R.color.unselectedColor)
+                filterBinding.acceptCardTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.acceptCardIv.setImageResource(R.drawable.icon_add)
                 acceptCard = false
             }
@@ -195,7 +196,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.deliveryIv.setImageResource(R.drawable.filter_selected)
                 delivery = true
             } else {
-                filterBinding.deliveryTv.setTextColor(R.color.unselectedColor)
+                filterBinding.deliveryTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.deliveryIv.setImageResource(R.drawable.icon_add)
                 delivery = false
             }
@@ -207,7 +208,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.dogFriendlyIv.setImageResource(R.drawable.filter_selected)
                 dogFriendly = true
             } else {
-                filterBinding.dogFriendlyTv.setTextColor(R.color.unselectedColor)
+                filterBinding.dogFriendlyTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.dogFriendlyIv.setImageResource(R.drawable.icon_add)
                 dogFriendly = false
             }
@@ -219,7 +220,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.familyFriendlyPlacesIv.setImageResource(R.drawable.filter_selected)
                 familyFriendlyPlace = true
             } else {
-                filterBinding.familyFriendlyPlacesTv.setTextColor(R.color.unselectedColor)
+                filterBinding.familyFriendlyPlacesTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.familyFriendlyPlacesIv.setImageResource(R.drawable.icon_add)
                 familyFriendlyPlace = false
             }
@@ -231,7 +232,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.inWalkDistanceIv.setImageResource(R.drawable.filter_selected)
                 inWalkingDistance = true
             } else {
-                filterBinding.inWalkDistanceTv.setTextColor(R.color.unselectedColor)
+                filterBinding.inWalkDistanceTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.inWalkDistanceIv.setImageResource(R.drawable.icon_add)
                 inWalkingDistance = false
             }
@@ -243,7 +244,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.outdoorSeatingIv.setImageResource(R.drawable.filter_selected)
                 outdoorSeating = true
             } else {
-                filterBinding.outdoorSeatingTv.setTextColor(R.color.unselectedColor)
+                filterBinding.outdoorSeatingTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.outdoorSeatingIv.setImageResource(R.drawable.icon_add)
                 outdoorSeating = false
             }
@@ -255,7 +256,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.parkingIv.setImageResource(R.drawable.filter_selected)
                 parking = true
             } else {
-                filterBinding.parkingTv.setTextColor(R.color.unselectedColor)
+                filterBinding.parkingTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.parkingIv.setImageResource(R.drawable.icon_add)
                 parking = false
             }
@@ -267,7 +268,7 @@ class FilterActivity : AppCompatActivity() {
                 filterBinding.wifiIv.setImageResource(R.drawable.filter_selected)
                 wifi = true
             } else {
-                filterBinding.wifiTv.setTextColor(R.color.unselectedColor)
+                filterBinding.wifiTv.setTextColor(Color.parseColor("#8D8D8D"))
                 filterBinding.wifiIv.setImageResource(R.drawable.icon_add)
                 wifi = false
             }
@@ -289,14 +290,16 @@ class FilterActivity : AppCompatActivity() {
             else 0
 
             text = filterBinding.search.query.toString()
-            val radius = 10
+            val radius = filterBinding.radiusEt.text.toString()
 
-            if (sortBy.isEmpty()){
-                Toast.makeText(this,"select sort value",Toast.LENGTH_SHORT).show()
-                if (priceRange == 0){
-                    Toast.makeText(this,"select price value",Toast.LENGTH_SHORT).show()
-                }
-            }else{
+
+            if (sortBy.isEmpty()) {
+                Toast.makeText(this, "select sort value", Toast.LENGTH_SHORT).show()
+            } else if (radius.isEmpty()) {
+                Toast.makeText(this, "enter radius value", Toast.LENGTH_SHORT).show()
+            } else if (priceRange == 0) {
+                Toast.makeText(this, "select price value", Toast.LENGTH_SHORT).show()
+            } else {
                 val data = FilterBody(
                     acceptCard,
                     delivery,
@@ -308,7 +311,7 @@ class FilterActivity : AppCompatActivity() {
                     outdoorSeating,
                     parking,
                     priceRange,
-                    radius,
+                    radius.toInt(),
                     sortBy,
                     text,
                     wifi
