@@ -19,7 +19,9 @@ import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.adapter.NearByCityAdapter
 import com.robosoft.foursquare.databinding.FragmentAddReviewBinding
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
+import com.robosoft.foursquare.model.network.ProjectApi
 import com.robosoft.foursquare.viewModel.AddReviewViewModel
+import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -61,6 +63,11 @@ class AddReviewFragment : Fragment() {
             val accessToken = SharedPreferenceManager(activity?.applicationContext!!).getAccessToken()
             val review = addReviewBinding.reviewEt?.text
 
+            val place = RequestBody.create(MediaType.parse("multipart/form-data"),
+                placeId.toString()
+            )
+            val userReview = RequestBody.create(MediaType.parse("multipart/form-data"),review.toString())
+
 //            val requestbody: RequestBody =
 //                MultipartBody.Builder()
 //                    .setType(okhttp3.MultipartBody.FORM)
@@ -73,38 +80,38 @@ class AddReviewFragment : Fragment() {
 ////            addReviewBody(accessToken,requestbody)
 //            Log.d("review",requestbody.toString())
 
-
+            addReviewPage()
+            addReviewBody(accessToken,place,userReview)
         }
 
         return addReviewBinding.root
     }
-//
-//    fun addReviewPage() {
-//        viewModel.getReviewDataObserver().observe(viewLifecycleOwner, Observer {
-//            if (it != null) {
-//                Toast.makeText(
-//                    activity?.applicationContext,
-//                    it.message,
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            } else {
-//                Toast.makeText(
-//                    activity?.applicationContext,
-//                    "Something went wrong",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        })
-//    }
-//
-//    fun addReviewBody(accessToken: String,data: RequestBody) {
-//        viewModel.addReviews(accessToken,data)
-//    }
 
-    fun addReview(placeId: String, review: String){
-
-//        val place = RequestBody.create("")
-
+    fun addReviewPage() {
+        viewModel.getReviewDataObserver().observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    it.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
+
+    fun addReviewBody(accessToken: String,placeId: RequestBody,review : RequestBody) {
+        viewModel.addReviews(accessToken,placeId, review)
+    }
+
+//    fun addReview(placeId: String, review: String){
+//        val place = RequestBody.create(MediaType.parse("multipart/form-data"),placeId)
+//        val userreview = RequestBody.create(MediaType.parse("multipart/form-data"),review)
+//    }
 
 }

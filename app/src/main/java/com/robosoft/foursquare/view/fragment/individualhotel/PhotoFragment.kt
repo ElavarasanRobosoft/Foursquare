@@ -64,17 +64,21 @@ class PhotoFragment : Fragment() {
                 Log.d("review response", it.toString())
 
                 val reviewImageList = mutableListOf<String>()
+                val profileImageList = mutableListOf<String>()
 
                 for(i in it.data.reviews){
                     reviewImageList.addAll(i.reviewImage.urls)
                 }
 
+                for(i in it.data.reviews){
+                    profileImageList.addAll(listOf(i.userId.profileImage.public_id))
+                }
                 Log.d("review images",reviewImageList.toString())
 
                 photoBinding.photoRecyclerView.layoutManager =
                     GridLayoutManager(activity?.applicationContext, 3)
                 photoBinding.photoRecyclerView.adapter =
-                    PhotoAdapter(activity,reviewImageList,it, lifecycleScope)
+                    PhotoAdapter(activity,reviewImageList,profileImageList,it, lifecycleScope)
             }
         })
         viewModel.getImagesByPlaceId(data)

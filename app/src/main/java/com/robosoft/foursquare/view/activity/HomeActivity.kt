@@ -75,9 +75,27 @@ class HomeActivity : AppCompatActivity() {
 
         val navigationView: NavigationView = homeBinding.navigationView
 
-        navigationView.getHeaderView(0).setOnClickListener {
-            Toast.makeText(this, "upload Image", Toast.LENGTH_SHORT).show()
+
+        if(login == "Login"){
+            navigationView.getHeaderView(0).setOnClickListener {
+                Toast.makeText(this, "user Profile", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            navigationView.getHeaderView(0).setOnClickListener {
+                Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show()
+            }
         }
+
+
+//            if(login == "Login"){
+//                navigationView.getHeaderView(1).setOnClickListener {
+//                    Toast.makeText(this, "user name", Toast.LENGTH_SHORT).show()
+//                }
+//            } else {
+//                navigationView.getHeaderView(1).setOnClickListener {
+//                    finish()
+//                }
+//            }
 
 //        projectApi.getName(accessToken){
 //            if (it == null){

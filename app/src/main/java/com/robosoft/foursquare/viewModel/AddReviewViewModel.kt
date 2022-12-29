@@ -23,8 +23,8 @@ class AddReviewViewModel: ViewModel() {
         return ReviewLiveData
     }
 
-    fun addReviews(accessToken: String, data: RequestBody) {
-        retrofit.addReviews(accessToken, data).enqueue(object : Callback<ResponseMessage> {
+    fun addReviews(accessToken: String, placeId: RequestBody,review: RequestBody) {
+        retrofit.addReviews(accessToken, placeId,review).enqueue(object : Callback<ResponseMessage> {
             override fun onFailure(call: Call<ResponseMessage>, t: Throwable) {
                 ReviewLiveData.postValue(null)
                 Log.d("add review fail response",t.toString())
@@ -38,6 +38,5 @@ class AddReviewViewModel: ViewModel() {
             }
         })
     }
-
 
 }
