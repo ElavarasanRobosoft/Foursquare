@@ -26,6 +26,7 @@ import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.databinding.FragmentHotelDetailBinding
 import com.robosoft.foursquare.model.dataclass.RatingBody
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
+import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsBody
 import com.robosoft.foursquare.model.dataclass.individualhotel.getParticularPlaceDetailsResponse
 import com.robosoft.foursquare.model.network.ProjectService
@@ -54,10 +55,7 @@ class HotelDetailFragment : Fragment() {
         val placeName = bundle?.getString("placeName")
         val distance = bundle?.getString("distance")
         val rating = bundle?.getString("rating")
-        val favourite = bundle?.getString("favourite")
-
         var fav = false
-        Log.d("favourite", favourite.toString())
 
         val placeBundle = Bundle()
         placeBundle.putString("placeId", placeId)
@@ -77,12 +75,21 @@ class HotelDetailFragment : Fragment() {
                 "sharedPreference",
                 Context.MODE_PRIVATE
             )
-
-        val accessToken = activity?.applicationContext?.let {
-            SharedPreferenceManager(it).getAccessToken()
-            val currentLat = sharedPreferences?.getString("currentLat", "")
-            val currentLong = sharedPreferences?.getString("currentLong", "")
+        val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+            val currentLat = sharedPreferences?.getString("currentLat", "")!!
+            val currentLong = sharedPreferences?.getString("currentLong", "")!!
             val login = sharedPreferences?.getString("Login", "")!!
+            val favData = HotelBody(currentLat,currentLong)
+            projectApi.getFavouritePlaceId(accessToken!!,favData) {
+                if (it != null) {
+                    Log.d("fav place response", it.toString())
+                    for (i in it){
+                        if (i.placeName == placeName){
+                            hotelDetailBinding.favIbn.setImageResource(R.drawable.favourite_whit)
+                        }
+                    }
+                }
+            }
 
             hotelDetailBinding.backIbn.setOnClickListener {
                 activity?.finish()
@@ -210,21 +217,17 @@ class HotelDetailFragment : Fragment() {
                     }
                 }
                 submitRating.setOnClickListener {
-                    val sharedPreferences =
-                        activity?.applicationContext?.getSharedPreferences(
-                            "sharedPreference",
-                            Context.MODE_PRIVATE
-                        )
-                    val accessToken = SharedPreferenceManager(activity?.applicationContext!!).getAccessToken()
-                    val login = sharedPreferences?.getString("Login", "")!!
                     val data = RatingBody(placeId!!,ratingValue)
 
-                    if (login == "Login"){
-                        addRating()
-                        getRating(accessToken,data)
+                    if (login != "Login"){
+                        Toast.makeText(activity,"Login to add rating",Toast.LENGTH_SHORT).show()
+                    }
+                    else if (ratingValue == ""){
+                        Toast.makeText(activity,"Add rating",Toast.LENGTH_SHORT).show()
                     }
                     else {
-                        Toast.makeText(activity,"Login to add rating",Toast.LENGTH_SHORT).show()
+                        addRating()
+                        getRating(accessToken,data)
                     }
                 }
                 builder.setCanceledOnTouchOutside(false)
@@ -247,7 +250,6 @@ class HotelDetailFragment : Fragment() {
             }
 
             val data = getParticularPlaceDetailsBody(currentLat!!,currentLong!!,placeId!!)
-
 
             viewModel.getHotelDetailDataObserver().observe(viewLifecycleOwner, Observer {
                 if (it == null) {
@@ -357,10 +359,9 @@ class HotelDetailFragment : Fragment() {
                     Toast.makeText(activity,"Login to add review",Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-        return hotelDetailBinding.root
-    }
 
+        return hotelDetailBinding.root
+        }
     fun favourite(placeId: String) {
         val sharedPreferences =
             activity?.applicationContext?.getSharedPreferences(

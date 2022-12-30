@@ -6,6 +6,7 @@ import com.robosoft.foursquare.model.dataclass.addreview.ReviewBody
 import com.robosoft.foursquare.model.dataclass.addreview.UploadImageResponse
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
+import com.robosoft.foursquare.model.dataclass.favourites.GetFavouritePlaces
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackBody
 import com.robosoft.foursquare.model.dataclass.feedback.FeedbackResponse
 import com.robosoft.foursquare.model.dataclass.filter.FilterBody
@@ -132,7 +133,7 @@ interface ProjectApi {
     fun addRating(@Header("authorization") access_token: String, @Body data: RatingBody) : Call<RatingResponse>
 
     @Headers("Content-Type: application/json")
-    @PUT("/logout")
+    @POST("/logout")
     fun logout(@Header("authorization") access_token: String) : Call<LogoutResponse>
 
     @Headers("Content-Type: application/json")
@@ -140,11 +141,15 @@ interface ProjectApi {
     fun addReviewByText(@Header("authorization") access_token: String, @Body data: ReviewBody) : Call<ResponseMessage>
 
     @Multipart
-    @PUT("/addReviews")
+    @POST("/addReviews")
     fun uploadMultipleImages(
         @Header("authorization") access_token: String,
         @Part("placeId") placeId: RequestBody,
         @Part("image") imageList: MutableList<ImageList>?) : Call<UploadImageResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/getFavouritePlaceId")
+    fun getFavouritePlaceId(@Header("authorization") access_token: String, @Body data: HotelBody) : Call<GetFavouritePlaces>
 
 }
 

@@ -1,6 +1,5 @@
 package com.robosoft.foursquare.view.fragment.individualhotel
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,12 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.robosoft.foursquare.R
-import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.adapter.PhotoAdapter
 import com.robosoft.foursquare.databinding.FragmentPhotoBinding
-import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
 import com.robosoft.foursquare.model.dataclass.review.GetReviewResponseBody
-import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.viewModel.PhotoViewModel
 
 
@@ -69,16 +65,14 @@ class PhotoFragment : Fragment() {
                 val createdDate = mutableListOf<String>()
 
 
-                for(i in it.data.reviews){
-                    reviewImageList.addAll(i.reviewImage.urls)
-
+                for (i in it.data.reviews) {
+                        reviewImageList.addAll(i.reviewImage.urls)
                     profileImageList.addAll(listOf(i.userId.profileImage.public_id))
-
                     userFullNameList.addAll(listOf(i.userId.fullName))
-
                     createdDate.addAll(listOf(i.createdOn))
                 }
 
+                Log.d("profile image",profileImageList.toString())
 //
 //                for(i in it.data.reviews){
 //                    profileImageList.addAll(listOf(i.userId.profileImage.public_id))
@@ -93,12 +87,20 @@ class PhotoFragment : Fragment() {
 //                }
 
 
-                Log.d("review images",reviewImageList.toString())
+                Log.d("review images", reviewImageList.toString())
 
                 photoBinding.photoRecyclerView.layoutManager =
                     GridLayoutManager(activity?.applicationContext, 3)
                 photoBinding.photoRecyclerView.adapter =
-                    PhotoAdapter(activity,reviewImageList,profileImageList,userFullNameList,createdDate,it, lifecycleScope)
+                    PhotoAdapter(
+                        activity,
+                        reviewImageList,
+                        profileImageList,
+                        userFullNameList,
+                        createdDate,
+                        it,
+                        lifecycleScope
+                    )
             }
         })
         viewModel.getImagesByPlaceId(data)

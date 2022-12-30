@@ -64,7 +64,7 @@
 
             <TextView
                 android:id="@+id/hotel_type_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="52dp"
                 android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:fontFamily="@font/avenir_book"

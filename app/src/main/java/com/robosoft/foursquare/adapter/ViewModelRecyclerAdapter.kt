@@ -3,6 +3,7 @@ package com.robosoft.foursquare.adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.foursquare.R
 import com.robosoft.foursquare.SharedPreferenceManager
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
+import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelResponse
 import com.robosoft.foursquare.model.network.ProjectService
 import com.robosoft.foursquare.view.activity.IndividualHotelContainerActivity
@@ -29,6 +31,7 @@ class ViewModelRecyclerAdapter(
 
     private val projectApi = ProjectService()
     var favourite = false
+
 
     val sharedPreferences =
         activity?.applicationContext?.getSharedPreferences(
@@ -58,6 +61,33 @@ class ViewModelRecyclerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val hotelData = data[position]
+
+        if (login == "Login"){
+            val sharedPreferences =
+                activity?.applicationContext?.getSharedPreferences(
+                    "sharedPreference",
+                    Context.MODE_PRIVATE
+                )
+            val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+            val currentLat = sharedPreferences?.getString("currentLat", "")!!
+            val currentLong = sharedPreferences?.getString("currentLong", "")!!
+            Log.d("accessToken",accessToken.toString())
+            Log.d("lat",currentLat)
+            Log.d("long",currentLong)
+            val data = HotelBody(currentLat,currentLong)
+            projectApi.getFavouritePlaceId(accessToken!!,data) {
+                if (it != null) {
+                    Log.d("fav place response", it.toString())
+                    for (i in it){
+                        if (i._id == hotelData._id && i.placeName == hotelData.placeName){
+                            Log.d("Favourite Places",hotelData.placeName)
+                            holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
+                        }
+                    }
+                }
+            }
+        }
+
 
         val imageUrl = hotelData.placeImages.url
         holder.hotelImg.let {
@@ -102,6 +132,7 @@ class ViewModelRecyclerAdapter(
 
 
         holder.favourite.setOnClickListener {
+
             if (login == "Login"){
                 if (!favourite){
                     holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
@@ -109,7 +140,7 @@ class ViewModelRecyclerAdapter(
                     favourite = true
                 } else {
                     holder.favourite.setImageResource(R.drawable.favourite_icon_copy)
-                    favourite(hotelData._id)
+                    removeFavourite(hotelData._id)
                     favourite = false
                 }
             }
@@ -123,7 +154,6 @@ class ViewModelRecyclerAdapter(
             val intent = Intent(activity, IndividualHotelContainerActivity::class.java)
             intent.putExtra("placeId", hotelData._id)
             intent.putExtra("placeName", hotelData.placeName)
-            intent.putExtra("favourite",favourite.toString())
             intent.putExtra("distance", km)
             intent.putExtra("rating",hotelData.totalrating.toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -153,4 +183,49 @@ class ViewModelRecyclerAdapter(
             }
         }
     }
+
+    fun removeFavourite(placeId: String) {
+        val sharedPreferences =
+            activity?.applicationContext?.getSharedPreferences(
+                "sharedPreference",
+                Context.MODE_PRIVATE
+            )
+        val accessToken =
+            activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+        val data = AddFavouriteBody(placeId)
+        projectApi.cancelFromFavourites(accessToken!!, data) {
+            if (it == null) {
+                Toast.makeText(
+                    activity?.applicationContext,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(activity?.applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+//    private fun favouritePlace(){
+//        val sharedPreferences =
+//            activity?.applicationContext?.getSharedPreferences(
+//                "sharedPreference",
+//                Context.MODE_PRIVATE
+//            )
+//        val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
+//        val currentLat = sharedPreferences?.getString("currentLat", "")!!
+//        val currentLong = sharedPreferences?.getString("currentLong", "")!!
+//        Log.d("accessToken",accessToken.toString())
+//        Log.d("lat",currentLat)
+//        Log.d("long",currentLong)
+//        val data = HotelBody(currentLat,currentLong)
+//        projectApi.getFavouritePlaceId(accessToken!!,data){
+//            if (it != null){
+//                Log.d("fav place response",it.toString())
+//            }else{
+//                Toast.makeText(activity?.applicationContext,"empty response",Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 }
+
