@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.activity.FilterActivity">
+    tools:context=".view.activity.FilterInFavouriteActivity">
 
     <data>
 
@@ -43,7 +43,6 @@
                     android:layout_marginStart="55dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="55dp"
-                    android:inputType="text"
                     android:layout_toEndOf="@+id/back_ibn"
                     android:background="@drawable/custom_search_bg"
                     android:drawableStart="@drawable/search_icon"
@@ -51,6 +50,7 @@
                     android:drawableTint="@color/grey"
                     android:hint="@string/search"
                     android:iconifiedByDefault="false"
+                    android:inputType="text"
                     android:queryHint="Search"
                     app:layout_constraintEnd_toStartOf="@+id/done_tv"
                     app:layout_constraintStart_toEndOf="@+id/back_ibn"
@@ -108,11 +108,11 @@
 
                     <LinearLayout
                         android:id="@+id/filter_view"
-                        android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_marginBottom="70dp"
+                        android:orientation="vertical"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -187,11 +187,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:layout_marginStart="24dp"
-                            android:inputType="number"
-                            android:backgroundTint="@color/grey_white"
-                            android:foregroundTint="@color/grey_white"
                             android:layout_marginEnd="24dp"
+                            android:backgroundTint="@color/grey_white"
                             android:fontFamily="@font/avenir_book"
+                            android:foregroundTint="@color/grey_white"
+                            android:inputType="number"
                             android:textColor="#000000"
                             android:textSize="22sp" />
 
@@ -276,10 +276,11 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/delivery"
@@ -310,10 +311,11 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/dog_friendly"
@@ -344,10 +346,11 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/family_friendly_places"
@@ -378,10 +381,11 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/in_walk_distance"
@@ -412,10 +416,11 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/outdoor_seating"
@@ -446,10 +451,11 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/parking"
@@ -480,16 +486,17 @@
                                 android:minHeight="40dp"
                                 android:src="@drawable/icon_add" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#8D8D8D"/>
+                            android:background="#8D8D8D" />
 
                         <LinearLayout
                             android:id="@+id/wifi"
-                            android:layout_marginBottom="45dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="45dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -522,16 +529,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/filter_recycler_view"
+                            android:id="@+id/filter_in_fav_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="#E5E5E5"
                             android:layout_marginBottom="134dp"
+                            android:background="#E5E5E5"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

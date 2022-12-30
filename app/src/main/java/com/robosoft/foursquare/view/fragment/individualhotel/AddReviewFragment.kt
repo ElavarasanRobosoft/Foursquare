@@ -107,7 +107,6 @@ class AddReviewFragment : Fragment() {
                 MediaType.parse("multipart/form-data"),
                 placeId.toString()
             )
-
             if (images?.isEmpty() == true)
                 images = null
             val reviewImageRequest = ReviewImageRequest(images)
@@ -211,8 +210,8 @@ class AddReviewFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_OK) {
-            var bmp = data?.extras?.get("data")
-            addReviewBinding.addImgOne?.setImageBitmap(bmp as Bitmap)
+            var bmp = data?.extras?.get("data") as Bitmap
+            addReviewBinding.addImgOne?.setImageBitmap(bmp)
         } else if (requestCode == 2) {
             addReviewBinding.addImgOne?.setImageURI(data?.data)
         }

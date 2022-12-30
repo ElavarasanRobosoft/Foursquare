@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -81,9 +82,6 @@ class HomeActivity : AppCompatActivity() {
 
         val navigationView: NavigationView = homeBinding.navigationView
 
-//        val headerView : View = navigationView.getHeaderView(0)
-//        val navUserImage : TextView = headerView.findViewById(R.id.profile_img)
-//        val navUserName : TextView = headerView.findViewById(R.id.username_home)
 
         if(login == "Login"){
             navigationView.getHeaderView(0).profile_img.setOnClickListener {

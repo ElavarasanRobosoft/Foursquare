@@ -1,6 +1,7 @@
 package com.robosoft.foursquare.view.activity.menuitems
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import com.robosoft.foursquare.adapter.FavouriteAdapter
 import com.robosoft.foursquare.databinding.ActivityFavouriteBinding
 import com.robosoft.foursquare.model.dataclass.favourites.GetFavSearchBody
 import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
+import com.robosoft.foursquare.view.activity.FilterInFavouriteActivity
 import com.robosoft.foursquare.viewModel.FavouriteViewModel
 
 class FavouriteActivity : AppCompatActivity() {
@@ -47,7 +49,7 @@ class FavouriteActivity : AppCompatActivity() {
         }
 
         favouriteBinding.filterIbn.setOnClickListener {
-            Toast.makeText(this,"Filter",Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, FilterInFavouriteActivity::class.java))
         }
 
         favouriteBinding.searchSv.setOnQueryTextListener(object : SearchView.OnQueryTextListener{

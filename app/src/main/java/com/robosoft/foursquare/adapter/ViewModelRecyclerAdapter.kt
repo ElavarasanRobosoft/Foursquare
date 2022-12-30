@@ -50,7 +50,6 @@ class ViewModelRecyclerAdapter(
         val distance: TextView = itemView.findViewById(R.id.hotel_distance_tv)
         val address: TextView = itemView.findViewById(R.id.address_tv)
         val favourite: ImageButton = itemView.findViewById(R.id.favourite_btn)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -79,8 +78,8 @@ class ViewModelRecyclerAdapter(
                 if (it != null) {
                     Log.d("fav place response", it.toString())
                     for (i in it){
-                        if (i._id == hotelData._id && i.placeName == hotelData.placeName){
-                            Log.d("Favourite Places",hotelData.placeName)
+                        Log.d("it",it.toString())
+                        if (hotelData._id == i._id && hotelData.placeName == i.placeName){
                             holder.favourite.setImageResource(R.drawable.favourite_icon_selected)
                         }
                     }
@@ -184,7 +183,7 @@ class ViewModelRecyclerAdapter(
         }
     }
 
-    fun removeFavourite(placeId: String) {
+    private fun removeFavourite(placeId: String) {
         val sharedPreferences =
             activity?.applicationContext?.getSharedPreferences(
                 "sharedPreference",
@@ -197,7 +196,7 @@ class ViewModelRecyclerAdapter(
             if (it == null) {
                 Toast.makeText(
                     activity?.applicationContext,
-                    "Something went wrong",
+                    "",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
@@ -206,26 +205,5 @@ class ViewModelRecyclerAdapter(
         }
     }
 
-//    private fun favouritePlace(){
-//        val sharedPreferences =
-//            activity?.applicationContext?.getSharedPreferences(
-//                "sharedPreference",
-//                Context.MODE_PRIVATE
-//            )
-//        val accessToken = activity?.applicationContext?.let { SharedPreferenceManager(it).getAccessToken() }
-//        val currentLat = sharedPreferences?.getString("currentLat", "")!!
-//        val currentLong = sharedPreferences?.getString("currentLong", "")!!
-//        Log.d("accessToken",accessToken.toString())
-//        Log.d("lat",currentLat)
-//        Log.d("long",currentLong)
-//        val data = HotelBody(currentLat,currentLong)
-//        projectApi.getFavouritePlaceId(accessToken!!,data){
-//            if (it != null){
-//                Log.d("fav place response",it.toString())
-//            }else{
-//                Toast.makeText(activity?.applicationContext,"empty response",Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
 }
 
