@@ -3,7 +3,9 @@ package com.robosoft.foursquare.model.network
 import android.util.Log
 import com.robosoft.foursquare.model.dataclass.*
 import com.robosoft.foursquare.model.dataclass.favourites.AddFavouriteBody
+import com.robosoft.foursquare.model.dataclass.favourites.GetFavouritePlaces
 import com.robosoft.foursquare.model.dataclass.forgetpassword.ForgetPasswordBody
+import com.robosoft.foursquare.model.dataclass.hotel.HotelBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInBody
 import com.robosoft.foursquare.model.dataclass.signin.SignInResponse
 import com.robosoft.foursquare.model.dataclass.signup.SignUpBody
@@ -193,6 +195,25 @@ class ProjectService {
             }
 
             override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
+                onResult(null)
+            }
+        })
+    }
+
+    fun getFavouritePlaceId(
+        access_token: String,
+        data: HotelBody,
+        onResult: (GetFavouritePlaces?) -> Unit
+    ) {
+        retrofit.getFavouritePlaceId(access_token, data).enqueue(object : Callback<GetFavouritePlaces> {
+            override fun onResponse(
+                call: Call<GetFavouritePlaces>,
+                response: Response<GetFavouritePlaces>
+            ) {
+                onResult(response.body())
+            }
+
+            override fun onFailure(call: Call<GetFavouritePlaces>, t: Throwable) {
                 onResult(null)
             }
         })
