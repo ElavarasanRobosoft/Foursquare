@@ -95,15 +95,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-//            if(login == "Login"){
-//                navigationView.getHeaderView(0).username_home.text = "Elavarasan"
-//            } else {
-//                navigationView.getHeaderView(0).username_home.text = "Login"
-//                navigationView.getHeaderView(0).username_home.setTextColor(Color.parseColor("#8D8D8D"))
-//                navigationView.getHeaderView(0).setOnClickListener {
-//                    finish()
-//                }
-//            }
 
         if(login == "Login"){
             projectApi.getName(accessToken){
