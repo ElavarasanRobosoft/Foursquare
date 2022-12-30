@@ -41,7 +41,7 @@ class ReviewAdapter(
             Picasso.with(activity).load(uri).into(it)
         }
         holder.userName.text = reviewData.userId.fullName
-        holder.date.text = reviewData.createdOn.removeRange(9,(reviewData.createdOn).length)
+        holder.date.text = reviewData.createdOn.removeRange(10,(reviewData.createdOn).length)
         holder.desc.text = reviewData.review
     }
 
