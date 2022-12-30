@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/action_bar_search"
@@ -43,7 +43,7 @@
                 android:background="@drawable/custom_search_bg"
                 android:iconifiedByDefault="false"
                 android:queryHint="Search"
-                android:searchIcon="@drawable/search_icon"
+                android:drawableStart="@drawable/search_icon"
                 app:layout_constraintEnd_toStartOf="@+id/filter_ibn"
                 app:layout_constraintStart_toEndOf="@+id/back_ibn"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -253,7 +253,7 @@
                             android:id="@+id/place_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_marginBottom="130dp"
+                            android:layout_marginBottom="150dp"
                             android:layout_weight="1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

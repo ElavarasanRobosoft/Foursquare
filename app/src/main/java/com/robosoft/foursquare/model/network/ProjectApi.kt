@@ -151,6 +151,10 @@ interface ProjectApi {
     @POST("/getFavouritePlaceId")
     fun getFavouritePlaceId(@Header("authorization") access_token: String, @Body data: HotelBody) : Call<GetFavouritePlaces>
 
+    @Headers("Content-Type: application/json")
+    @POST("/FilterInFavourites")
+    fun filterInFavourites(@Header("authorization") access_token: String, @Body data: FilterBody) : Call<FilterResponse>
+
 }
 
 

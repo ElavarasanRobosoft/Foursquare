@@ -21,6 +21,12 @@ class FilterViewModel: ViewModel() {
         return  FilterLiveDataList
     }
 
+    private var  FavFilterLiveDataList: MutableLiveData<FilterResponse?> = MutableLiveData()
+
+    fun getFavFilterLiveDataObserver(): MutableLiveData<FilterResponse?> {
+        return  FavFilterLiveDataList
+    }
+
     fun searchByFilter(data: FilterBody) {
         retrofit.searchByFilter(data).enqueue(object : Callback<FilterResponse> {
             override fun onFailure(call: Call<FilterResponse>, t: Throwable) {
@@ -37,4 +43,20 @@ class FilterViewModel: ViewModel() {
         })
     }
 
+    fun filterInFavourites(accessToken: String,data: FilterBody) {
+        retrofit.filterInFavourites(accessToken,data).enqueue(object : Callback<FilterResponse> {
+            override fun onFailure(call: Call<FilterResponse>, t: Throwable) {
+                FavFilterLiveDataList.postValue(null)
+                Log.d("search filter response",t.toString())
+            }
+            override fun onResponse(
+                call: Call<FilterResponse>,
+                response: Response<FilterResponse>
+            ) {
+                FavFilterLiveDataList.postValue(response.body())
+                Log.d("search filter response", response.toString())
+            }
+        })
+    }
 }
+
